@@ -1,0 +1,4 @@
+package saboteadores.enums;
+public enum CartaTipo{
+	ACCION, CAMINO, REVERSO, CALLEJON, SABOTAJE, REPARACION, VISTA, DERRUMBE
+}
