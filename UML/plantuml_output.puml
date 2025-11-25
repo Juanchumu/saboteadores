@@ -1,0 +1,336 @@
+@startuml
+hide empty members
+
+enum CartaAccionTipo {
+  PICO
+}
+
+enum CartaTipo {
+  ACCION
+}
+
+enum Posiciones {
+  ARRIBA
+}
+
+enum Rol {
+  IMPOSTOR
+}
+
+class Controlador {
+  - Tablero modelo
+  - VistaTerminal vista
+  ~ Carta cartita
+  ~ int opcion
+  ~ Controlador(Tablero, VistaTerminal): public
+  + iniciar(): void
+  + cargarJugadores(): void
+  + menuDeCartas(): Carta
+  + opciones(): void
+  + actualizar(): void
+}
+
+class Jugador {
+  - String nombre
+  - ArrayList<Carta> mano
+  - ArrayList<CartaSabotaje> restricciones
+  - ArrayList<Carta_Oro> orosVistos
+  - Rol rol
+  ~ boolean estado
+  ~ CartaSabotaje cartita
+  ~ return estado
+  ~ boolean estado
+  ~ CartaReparacion cartita
+  ~ Iterator<CartaSabotaje> it
+  ~ CartaSabotaje c
+  ~ return estado
+  ~ Carta_Oro oritolindo
+  ~ Jugador(String, ArrayList<Carta>, Rol): public
+  + getManoJugador(): ArrayList<Carta>
+  + getOrosJugador(): ArrayList<Carta_Oro>
+  + getRestriccionesJugador(): ArrayList<CartaSabotaje>
+  + getNombre(): String
+  + getRol(): Rol
+  + agregarRestriccion(Carta): boolean
+  + quitarRestriccion(Carta): boolean
+  + tieneRestricciones(): boolean
+  + agregarOrosVistos(Carta): void
+}
+
+class Main {
+  ~ Tablero tableroJuego
+  ~ VistaTerminal vista
+  ~ Controlador controlador
+  + main(String[]): void
+}
+
+class VistaTerminal {
+  - ArrayList<String> nombres
+  - int MAX
+  - int cartasRestantesMazo
+  - Jugador jugador
+  - Tablero tableroJuego
+  ~ Scanner sc
+  ~ String nombre
+  ~ int i
+  ~ Carta_Camino camino
+  ~ Carta_Camino camino
+  ~ CartaReparacion repa
+  ~ int i
+  ~ int i
+  ~ int contador
+  ~ Scanner sc
+  ~ int opcionCarta
+  ~ Scanner sc
+  ~ int accion
+  ~ return accion
+  ~ Scanner sc
+  ~ int i
+  ~ int op
+  ~ String objetivo
+  ~ return objetivo
+  ~ Scanner sc
+  ~ int op
+  ~ return op
+  ~ Scanner sc
+  ~ int accion
+  ~ return accion
+  ~ Scanner sc
+  ~ int accion
+  ~ return accion
+  ~ VistaTerminal(): public
+  + vistaPorDefecto(): void
+  + iniciarJuego(): void
+  + generarJugadores(): ArrayList<String>
+  + actualizarTablero(Tablero): void
+  + cartasRestantes(int): void
+  + jugadorActual(Jugador): void
+  - verJugadorActual(): void
+  - verCartasJugador(): void
+  - verOrosJugador(): void
+  - verRestriccionesJugador(): void
+  - verTablero(): void
+  - verCantidadDeCartasRestantes(): void
+  + menuDeCartas(): Carta
+  + menuOpciones(): int
+  + menuElegirJugador(): String
+  + menuElegirOro(): int
+  + menuJugarEnTablero(): int
+  + introducirPosicion(): int
+}
+
+class Mazo {
+  - ArrayList<Carta> mazo
+  ~ boolean estado
+  ~ return estado
+  ~ Carta devolver
+  ~ return devolver
+  ~ Mazo(): public
+  + addCallejonesYCaminos(): void
+  + addAcciones(): void
+  + getMazo(): ArrayList<Carta>
+  + hayCartasEnElMazo(): boolean
+  + getCarta(): Carta
+  + getCantidadRestanteMazo(): int
+}
+
+class Mazo_oros {
+  - ArrayList<Carta_Oro> mazo_oro
+  ~ Mazo_oros(): public
+  - oros(): void
+  + get_mazo_oros(): ArrayList<Carta_Oro>
+}
+
+class Carta {
+  - CartaTipo tipo
+  ~ Carta(CartaTipo): public
+  + getTipo(): CartaTipo
+}
+
+class CartaReparacion {
+  - CartaAccionTipo reparacion1
+  - CartaAccionTipo reparacion2
+  ~ CartaReparacion(CartaTipo, CartaAccionTipo, CartaAccionTipo): public
+  + getReparacion1(): CartaAccionTipo
+  + getReparacion2(): CartaAccionTipo
+}
+
+class CartaSabotaje {
+  - CartaAccionTipo sabotaje
+  ~ CartaSabotaje(CartaTipo, CartaAccionTipo): public
+  + getAccion(): CartaAccionTipo
+}
+
+class Carta_Accion {
+  ~ Carta_Accion(CartaTipo): public
+}
+
+class Carta_Camino {
+  - String forma
+  - boolean arriba
+  - boolean abajo
+  - boolean izquierda
+  - boolean derecha
+  ~ Carta_Camino(CartaTipo, //callejon sin salida o camino boolean, boolean, boolean, boolean, String): public
+  + getArriba(): boolean
+  + getAbajo(): boolean
+  + getIzquierda(): boolean
+  + getDerecha(): boolean
+  + getForma(): String
+}
+
+class Carta_Oro {
+  - boolean oro
+  - String forma
+  ~ Carta_Oro(CartaTipo, //callejon sin salida o camino boolean, boolean, boolean, boolean, String, boolean): public
+  + getOro(): boolean
+  + getForma(): String
+}
+
+interface Observable {
+  ~ agregarObservador(Observador): void
+  ~ quitarObservador(Observador): void
+  ~ notificarObservadores(): void
+}
+
+interface Observador {
+  ~ actualizar(): void
+}
+
+class Slot {
+  - Carta_Camino carta_alojada
+  - boolean arriba
+  - boolean abajo
+  - boolean izquierda
+  - boolean derecha
+  - boolean ocupao
+  - String forma
+  ~ Slot(boolean, boolean, boolean, boolean): public
+  ~ Slot(Carta_Camino, boolean, boolean, boolean, boolean): public
+  + getTipo(): CartaTipo
+  + taOcupao(): boolean
+  + getCartaAlojadaEnSlot(): Carta_Camino
+  + alojarCarta(Carta_Camino): void
+  + eliminarCarta(): void
+  + gA(): boolean
+  + gB(): boolean
+  + gI(): boolean
+  + gD(): boolean
+}
+
+class Slots_tablero {
+  - ArrayList<Slot> slots
+  - ArrayList<Carta_Oro> mazo_oro
+  ~ Slots_tablero(): public
+  - crear_slots(): void
+  ~ Carta_Camino(CartaTipo.CAMINO, true, true, true, true, "#"): new
+  + getSlot(int): Slot
+}
+
+class Tablero {
+  - List<Observador> observadores
+  - boolean jugable
+  - boolean esperandoAccion
+  - Mazo mazo
+  - Slots_tablero slots
+  - ArrayList<Jugador> jugadores
+  - Jugador jugadorActual
+  - int turnoActual
+  - ArrayList<String> jugadoresNuevos
+  ~ int nroCartas
+  ~ int nroMineros
+  ~ int nroSaboteadores
+  ~ ArrayList<Carta> mano
+  ~ int contador
+  ~ boolean estado
+  ~ int colocar
+  ~ Slot espacio
+  ~ Slot espacioAVerificar
+  ~ Carta_Camino ah
+  ~ return estado
+  ~ Slot espacio
+  ~ Slot espacioAVerificar
+  ~ Carta_Oro aver
+  ~ Carta_Oro aver
+  ~ Carta_Oro aver
+  ~ Carta_Oro aver
+  ~ boolean fallido
+  ~ Carta_Camino camino
+  ~ boolean fallido
+  ~ ArrayList<Carta> mano
+  ~ Carta cartaEncontrada
+  ~ Carta nueva
+  ~ CartaSabotaje cartita
+  ~ CartaReparacion cartita
+  ~ Tablero(): public
+  + agregarJugadores(ArrayList<String>): void
+  + incializar(): void
+  - inicializarJugadores(ArrayList<String>): void
+  + iniciarJuego(): void
+  + siguienteTurno(): void
+  + ganarPartida(): void
+  + quieroVerOro(Carta, int, String): void
+  + getSlot(int): Slot
+  + sePuedePoner(Carta_Camino, int): boolean
+  + cartasConectorEsMeta(int): void
+  + ponerCartaTablero(Carta, int, String): void
+  + taOcupao(int): boolean
+  + derrumbar(Carta, int, String): void
+  + descartarCarta(Carta, String): void
+  + getJugadorActual(): Jugador
+  + getCantidadRestanteMazo(): int
+  + borrarCartaYDarUnaNueva(Carta, String): void
+  + ponerCartaSobreJugador(Carta, String, String): void
+  + agregarObservador(Observador): void
+  + quitarObservador(Observador): void
+  + notificarObservadores(): void
+}
+
+Observador <|.. Controlador
+Carta <|-- CartaReparacion
+Carta <|-- CartaSabotaje
+Carta <|-- Carta_Accion
+Carta <|-- Carta_Camino
+Carta_Camino <|-- Carta_Oro
+Observable <|.. Tablero
+Controlador --> Tablero : modelo
+Controlador --> VistaTerminal : vista
+Controlador --> Carta : cartita
+Jugador --> Rol : rol
+Jugador --> CartaSabotaje : cartita
+Jugador --> CartaReparacion : cartita
+Jugador --> CartaSabotaje : c
+Jugador --> Carta_Oro : oritolindo
+Main --> Tablero : tableroJuego
+Main --> VistaTerminal : vista
+Main --> Controlador : controlador
+VistaTerminal --> Jugador : jugador
+VistaTerminal --> Tablero : tableroJuego
+VistaTerminal --> Carta_Camino : camino
+VistaTerminal --> Carta_Camino : camino
+VistaTerminal --> CartaReparacion : repa
+Mazo --> Carta : devolver
+Carta --> CartaTipo : tipo
+CartaReparacion --> CartaAccionTipo : reparacion1
+CartaReparacion --> CartaAccionTipo : reparacion2
+CartaSabotaje --> CartaAccionTipo : sabotaje
+Slot --> Carta_Camino : carta_alojada
+Tablero --> Mazo : mazo
+Tablero --> Slots_tablero : slots
+Tablero --> Jugador : jugadorActual
+Tablero --> Slot : espacio
+Tablero --> Slot : espacioAVerificar
+Tablero --> Carta_Camino : ah
+Tablero --> Slot : espacio
+Tablero --> Slot : espacioAVerificar
+Tablero --> Carta_Oro : aver
+Tablero --> Carta_Oro : aver
+Tablero --> Carta_Oro : aver
+Tablero --> Carta_Oro : aver
+Tablero --> Carta_Camino : camino
+Tablero --> Carta : cartaEncontrada
+Tablero --> Carta : nueva
+Tablero --> CartaSabotaje : cartita
+Tablero --> CartaReparacion : cartita
+
+@enduml
