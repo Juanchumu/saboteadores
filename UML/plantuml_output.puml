@@ -227,6 +227,7 @@ VistaTerminal --> Slots_tablero : conoce
 VistaTerminal --> Carta_Camino : conoce
 VistaTerminal --> CartaReparacion : conoce
 Mazo "1" --> "0..*"  Carta : utiliza
+Mazo_oros "1" --> "3"  Carta_Oro : utiliza
 Carta --> CartaTipo : utiliza
 CartaReparacion --> CartaAccionTipo : utiliza
 CartaSabotaje --> CartaAccionTipo : utiliza
