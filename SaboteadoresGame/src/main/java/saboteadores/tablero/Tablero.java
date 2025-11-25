@@ -392,6 +392,10 @@ public class Tablero implements Observable {
 					// darle una nueva
 					Carta nueva = mazo.getCarta();
 					mano.add(nueva);
+				}else{
+					//Se recibio una carta que no esta en el mazo
+					//System.out.println("El jugador"+jugador+"Hizo trampa.");
+					//this.jugable = false;
 				}
 				return;  // ya encontramos al jugador, salimos del método
 			}
