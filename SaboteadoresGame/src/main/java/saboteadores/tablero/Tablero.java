@@ -1,5 +1,6 @@
 package saboteadores.tablero;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 
 import saboteadores.enums.Rol;
@@ -15,27 +16,35 @@ import saboteadores.Jugador;
 
 
 import saboteadores.mazo.cartas.Carta;
+import saboteadores.mazo.cartas.CartaSabotaje;
 
 public class Tablero implements Observable {
+
+	private List<Observador> observadores;
+
 	private boolean jugable;
+	private boolean esperandoAccion = false;
 	//private ArrayList<Carta> mazo;
 	private Mazo mazo;
-	private ArrayList<Carta_Oro> mazo_oro;
 	private Slots_tablero slots;
 	private ArrayList<Jugador> jugadores;
+	private Jugador jugadorActual;
 	private ArrayList<String> jugadoresNuevos;
 
-	public Tablero(ArrayList<String> jugadoresNuevos){
+	public Tablero(){
+		this.observadores = new ArrayList<Observador>();
 		this.incializar();
+	}
+	public void agregarJugadores(ArrayList<String> jugadoresNuevos){
 		this.jugadoresNuevos = jugadoresNuevos;
-		this.inicializarJugadores(this.jugadoresNuevos);
+		this.inicializarJugadores(jugadoresNuevos);
+		this.iniciarJuego();
 	}
 	public void incializar(){
 		slots = new Slots_tablero();
 		//mazo.clear();
 		//mazo = new Mazo().getMazo();
 		mazo = new Mazo();
-		this.jugable = true;
 	}
 	private void inicializarJugadores(ArrayList<String> jug){
 		this.jugadores = new ArrayList<Jugador>();
@@ -109,23 +118,50 @@ public class Tablero implements Observable {
 			contador++;
 		}
 	}
+	public void iniciarJuego(){
+		this.jugable = true;
+		int turnoActual = 0;
+		while(jugable){
+			this.jugadorActual = jugadores.get(turnoActual);
+			// acciones
+			notificarObservadores();
+			esperandoAccion = true;
+			while(esperandoAccion && jugable){
+				try {
+					Thread.sleep(50);  // evita usar CPU a lo loco
+				}catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			notificarObservadores();
+			if(!jugable) break;
+			turnoActual = (turnoActual+1)%jugadores.size();
+		}
+		System.out.println("El juego termino");
+	}
 
 
 
-	public Carta quieroVerOro(Carta carta, int pos){
+	public Carta quieroVerOro(Carta carta, int pos, String quien ){
+		// Se devuelven 2 cartas
 		//if la carta es de ver
 		//devuelve una copia de la carta meta 
 		//osea, el jugador puede guardarla que es
 		//si no es, deberia devolver error, como jugada imposible
-		if ( pos == 7 | pos == 21 | pos == 31 ){
+		Carta cartita = carta;
+		if ( pos == 8 | pos == 26 | pos == 44 ){
 			if(carta.getTipo() == CartaTipo.VISTA){
-				return this.slots.getSlot(pos).getCartaAlojadaEnSlot();
-				//carta jugada, recibir otra
+				for(Jugador j: jugadores){
+					if(j.getNombre() == quien){
+						j.agregarOrosVistos(this.slots.getSlot(pos).getCartaAlojadaEnSlot() );
+						cartita = mazo.getCarta();
+						//HUBO CAMBIOS
+						notificarObservadores();
+					}
+				}
 			}
-		}else{
-			return carta; 
 		}
-		return carta;
+		return cartita;
 	}
 	public Slot getSlot(int pos){
 		return this.slots.getSlot(pos);
@@ -146,24 +182,42 @@ public class Tablero implements Observable {
 		//
 		//return mazo.get(0);
 	}
-	public Jugador getJugador(int nro){
-		return jugadores.get(nro);
+	public Jugador getJugadorActual(){
+		return this.jugadorActual;
 	}
 	public int getCantidadRestanteMazo(){
 		return this.mazo.getCantidadRestanteMazo();
 	}
 
+	public Carta ponerCartaSobreJugador(Carta carta, String jugadorObjetivo){
+		Carta devuelve = carta;
+		if(carta.getTipo() == CartaTipo.SABOTAJE && carta instanceof CartaSabotaje){
+			CartaSabotaje cartita = (CartaSabotaje) carta;
+			for(Jugador j: jugadores){
+				if(j.getNombre() == jugadorObjetivo){
+					j.agregarRestriccion(cartita);
+					devuelve = mazo.getCarta();
+					//Hubo cambios
+					notificarObservadores();
+				}
+			}
+		}
+		return devuelve;
+	}
+
 	@Override
 	public void agregarObservador(Observador observador){
-
+		observadores.add(observador);
 	}
 	@Override
 	public void quitarObservador(Observador observador){
-
+		observadores.remove(observador);
 	}
 	@Override
 	public void notificarObservadores(){
-
+		for(Observador observador: observadores){
+			observador.actualizar();
+		}
 	}
 
 }

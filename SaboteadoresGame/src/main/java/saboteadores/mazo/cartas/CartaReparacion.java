@@ -9,4 +9,11 @@ public class CartaReparacion extends Carta{
 		this.reparacion1 = re1;
 		this.reparacion2 = re2;
 	}
+
+	public CartaAccionTipo getReparacion1(){
+		return this.reparacion1;
+	}
+	public CartaAccionTipo getReparacion2(){
+		return this.reparacion2;
+	}
 }
