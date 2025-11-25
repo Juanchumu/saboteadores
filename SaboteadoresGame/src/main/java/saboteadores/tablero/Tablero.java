@@ -217,11 +217,15 @@ public class Tablero implements Observable {
 				}
 			}
 			if(espacio.gI()){
+				System.out.println("a la izquierda hay espacio");
 				//no hace falta comprobar espacio -1 
 				espacioAVerificar = this.slots.getSlot(pos - 1);
 				if(espacioAVerificar.taOcupao()){
+					System.out.println("ocupado");
 					if(espacioAVerificar.getCartaAlojadaEnSlot().getTipo() == CartaTipo.CAMINO){
+						System.out.println("es un camino");
 						if(espacioAVerificar.getCartaAlojadaEnSlot().getDerecha()){
+							System.out.println("derecha disponible");
 							//esta carta se puede poner
 							colocar++;
 						}

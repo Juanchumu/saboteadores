@@ -9,7 +9,6 @@ import saboteadores.tablero.Slots_tablero;
 import saboteadores.mazo.cartas.Carta;
 import saboteadores.mazo.cartas.CartaReparacion;
 import saboteadores.mazo.cartas.CartaSabotaje;
-import saboteadores.mazo.cartas.Carta_Accion;
 import saboteadores.mazo.cartas.Carta_Camino;
 import saboteadores.mazo.cartas.Carta_Oro;
 
@@ -147,12 +146,6 @@ public class VistaTerminal {
 						System.out.println(" ");
 					}
 					break;
-				case ACCION:
-					System.out.println("");
-					break;
-				case REVERSO:
-					System.out.println("");
-					break;
 			}
 			i++;
 		}
@@ -259,11 +252,16 @@ public class VistaTerminal {
 		System.out.println("1) Jugar sobre el tablero");
 		System.out.println("2) Jugar sobre un jugador");
 		System.out.println("3) Descartar la carta");
-		System.out.println("4) Cancelar");
+		//System.out.println("4) Cancelar");
 		System.out.print("Opción: ");
 		Scanner sc = new Scanner(System.in);
 		int accion = sc.nextInt();
 		sc.nextLine();
+		while( accion < 1 && accion > 3 ) {
+			System.out.println("opcion inválida.");
+			accion = sc.nextInt();
+			sc.nextLine();
+		}
 		switch (accion) {
 			case 1:
 				System.out.println("Jugando la carta sobre el tablero...");

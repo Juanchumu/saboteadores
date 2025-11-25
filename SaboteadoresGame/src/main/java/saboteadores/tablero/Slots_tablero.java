@@ -38,7 +38,8 @@ public class Slots_tablero {
 					new Carta_Camino(CartaTipo.CAMINO, true, true, true, true, "╬"),
 					true,true,false,true
 					));
-		slots.add( new Slot(true,true,false,true));
+		//err slots.add( new Slot(true,true,false,true));
+		slots.add( new Slot(true,true,true,true)); //posicion 19
 		for(int i = 0; i < 5; i++ ){
 			slots.add( new Slot(true,true,true,true));
 		}
