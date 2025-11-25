@@ -25,7 +25,8 @@ public class Slots_tablero {
 		slots.add( new Slot(mazo_oro.get(0), false,true,true,false));
 
 		//Segunda Fila 
-		slots.add( new Slot(true,false,false,true));
+		//err slots.add( new Slot(true,false,false,true));
+		slots.add( new Slot(true,true,false,true));
 		for(int i = 0; i < 7; i++ ){
 			slots.add( new Slot(true,true,true,true));
 		}
@@ -45,7 +46,8 @@ public class Slots_tablero {
 		slots.add( new Slot(mazo_oro.get(1),true,true,true,false));
 
 		//Cuarta Fila 
-		slots.add( new Slot(false,true,false,true));
+		// esto causa error slots.add( new Slot(false,true,false,true));
+		slots.add( new Slot(true,true,false,true));
 		for(int i = 0; i < 7; i++ ){
 			slots.add( new Slot(true,true,true,true));
 		}

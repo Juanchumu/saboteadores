@@ -27,6 +27,7 @@ public class Controlador implements Observador {
 	}
 
 	public void opciones(){
+		vista.vistaPorDefecto();
 		Carta cartita = menuDeCartas();
 		int opcion = vista.menuOpciones();
 		switch (opcion) {
@@ -34,12 +35,13 @@ public class Controlador implements Observador {
             //Jugando la carta sobre el tablero...
             switch(vista.menuJugarEnTablero()){
 				case 1:
-					//this.modelo.ponerCartaTablero(cartita,
-				//			vista.introducirPosicion() );
+					this.modelo.ponerCartaTablero(cartita,
+							vista.introducirPosicion(),
+							this.modelo.getJugadorActual().getNombre());
 					break;
 				case 2:
 					this.modelo.quieroVerOro(cartita,
-							vista.introducirPosicion(),
+							vista.menuElegirOro(),
 							//Quien?
 							this.modelo.getJugadorActual().getNombre() );
 			}
@@ -47,14 +49,15 @@ public class Controlador implements Observador {
         case 2:
             //Jugando la carta sobre un jugador...
 			modelo.ponerCartaSobreJugador(cartita,
-					vista.menuElegirJugador());
+					vista.menuElegirJugador(),
+					this.modelo.getJugadorActual().getNombre());
             break;
 
         case 3:
 			//por falta de tiempo cualquier carta mal jugada se considera
 			//descarte
-            System.out.println("Descartando la carta...");
-            //modelo.descartarCarta(cartita);
+            modelo.descartarCarta(cartita,
+					this.modelo.getJugadorActual().getNombre());
             break;
 
         case 4:
@@ -72,6 +75,7 @@ public class Controlador implements Observador {
 		vista.jugadorActual(this.modelo.getJugadorActual());
 		vista.cartasRestantes(modelo.getCantidadRestanteMazo());
 		vista.actualizarTablero(this.modelo ); //se puede mejorar
+		opciones();
 	}
 	
 }

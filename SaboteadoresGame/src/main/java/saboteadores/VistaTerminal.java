@@ -1,12 +1,16 @@
 package saboteadores;
 
 import saboteadores.Jugador;
+import saboteadores.enums.CartaAccionTipo;
 import saboteadores.enums.CartaTipo.*;
 import saboteadores.tablero.Tablero;
 import saboteadores.tablero.Slot;
 import saboteadores.mazo.cartas.Carta;
+import saboteadores.mazo.cartas.CartaReparacion;
+import saboteadores.mazo.cartas.CartaSabotaje;
 import saboteadores.mazo.cartas.Carta_Accion;
 import saboteadores.mazo.cartas.Carta_Camino;
+import saboteadores.mazo.cartas.Carta_Oro;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,13 +30,21 @@ public class VistaTerminal {
 		//this.tableroJuego = tableroJuego;
 		System.out.println("Inicio la vista");
 		//this.jugador = tableroJuego.getJugador(0);
+		//this.verJugadorActual();
+		//this.verCartasJugador();
+		//this.verTablero();
+		//this.verCantidadDeCartasRestantes();
+	}
+	public void vistaPorDefecto(){
 		this.verJugadorActual();
-		this.verCartasJugador();
+		//this.verCartasJugador();
+		this.verOrosJugador();
+		this.verRestriccionesJugador();
 		this.verTablero();
 		this.verCantidadDeCartasRestantes();
 	}
 	public void iniciarJuego(){
-		System.out.print("Bienvenido al juego de los saboteadores");
+		System.out.println("Bienvenido al juego de los saboteadores");
 	}
 
 	public ArrayList<String> generarJugadores() {
@@ -80,12 +92,15 @@ public class VistaTerminal {
 		this.jugador = j;
 	}
 	private void verJugadorActual(){
+		System.out.println("==========================================");
 		System.out.print("Estas controlando al jugador:");
 		System.out.println(this.jugador.getNombre());
+		System.out.print("tiene el rol de:");
+		System.out.println(this.jugador.getRol());
+		System.out.println("==========================================");
 	}
 	private void verCartasJugador(){
 		int i = 1;
-		System.out.println("Mano del jugador:");
 		for(Carta c : jugador.getManoJugador()){
 			System.out.print(i+ " ");
 			System.out.print(c.getTipo());
@@ -114,7 +129,16 @@ public class VistaTerminal {
 					System.out.println("");
 					break;
 				case REPARACION:
-					System.out.println("");
+					if(c instanceof CartaReparacion){
+						CartaReparacion repa = (CartaReparacion) c;
+						System.out.print(" ");
+						System.out.print(repa.getReparacion1());
+						if(repa.getReparacion2() != CartaAccionTipo.VACIO){
+							System.out.print(" ");
+							System.out.print(repa.getReparacion2());
+						}
+						System.out.println(" ");
+					}
 					break;
 				case ACCION:
 					System.out.println("");
@@ -122,13 +146,49 @@ public class VistaTerminal {
 				case REVERSO:
 					System.out.println("");
 					break;
-			}}
+			}
+			i++;
+		}
 	}
+	private void verOrosJugador(){
+		int i = 1;
+		if(jugador.getOrosJugador().isEmpty()){
+			System.out.println("== Todavia no hay oros vistos ==");
+		}else{
+			System.out.println("== Oros vistos: ==");
+			for(Carta_Oro c : jugador.getOrosJugador()){
+				System.out.print(i+ " ");
+				System.out.print(c.getTipo());
+				System.out.print(c.getForma());
+				if(c.getOro()){
+					System.out.println("Oro");
+				}else{
+					System.out.println("Carbon");
+				}
+				i++;
+			}
+		}
+	}
+	private void verRestriccionesJugador(){
+		int i = 1;
+		if(jugador.getRestriccionesJugador().isEmpty()){
+			System.out.println("== Todavia no hay restricciones ==");
+		}else{
+			System.out.println("== Restricciones: ==");
+			for(CartaSabotaje c : jugador.getRestriccionesJugador()){
+				System.out.print(i+ " ");
+				System.out.println(c.getAccion());
+				i++;
+			}
+		}
+	}
+
 	private void verTablero(){
+		System.out.println("== Tablero Actual: ==");
 		int contador = 0;
 		for(int fila = 0; fila < 5; fila++){
 			for(int columna = 0; columna < 9; columna++){
-				System.out.print("pos"+contador );
+				System.out.print("pos"+contador+"\t" );
 				if(tableroJuego.taOcupao(contador) == true){
 					//esto realmente tiene que pedir el array de slots
 					System.out.print(tableroJuego.getSlot(contador).getCartaAlojadaEnSlot().getForma() );
@@ -146,8 +206,7 @@ public class VistaTerminal {
 	}
 	public Carta menuDeCartas() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("\n=== MENÚ DE ACCIONES ===");
-		System.out.println("Cartas en tu mano:");
+		System.out.println("\n=== Mano del Jugador ===");
 		// Mostrar la mano numerada
 		verCartasJugador();
 		System.out.print("\nElegí el número de carta: ");
@@ -161,8 +220,8 @@ public class VistaTerminal {
 			sc.nextLine(); // limpiar buffer
 		}
 		System.out.println("\nElegiste: " + 
-				this.jugador.getManoJugador().get(opcionCarta).getTipo());
-		return this.jugador.getManoJugador().get(opcionCarta - 1);
+				this.jugador.getManoJugador().get(opcionCarta-1).getTipo());
+		return this.jugador.getManoJugador().get(opcionCarta -1);
 	}
 
 	public int menuOpciones() {
@@ -227,7 +286,7 @@ public class VistaTerminal {
 		System.out.println(" 8 |  26 | 44 ");
 		int op = sc.nextInt();
 		sc.nextLine();
-		while( (op != 8) |   ( op!=26 ) | (op!=44)    ) {
+		while( op != 8 && op!=26 && op!=44 ) {
 			System.out.println("Meta inválida.");
 			op = sc.nextInt();
 			sc.nextLine();

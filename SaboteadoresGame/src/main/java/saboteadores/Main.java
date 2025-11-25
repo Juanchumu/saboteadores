@@ -20,7 +20,7 @@ public class Main {
 		//nuevo juego 
 		//
 		Tablero tableroJuego = new Tablero();
-		VistaTerminal vista = new VistaTerminal(tableroJuego);
+		VistaTerminal vista = new VistaTerminal();
 		Controlador controlador = new Controlador(tableroJuego, vista);
 		controlador.iniciar();
 	}

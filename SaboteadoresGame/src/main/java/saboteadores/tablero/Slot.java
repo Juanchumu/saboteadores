@@ -35,4 +35,16 @@ public class Slot {
 	public Carta_Camino getCartaAlojadaEnSlot(){
 		return this.carta_alojada;
 	}
+	public void alojarCarta(Carta_Camino carta){
+		this.carta_alojada = carta;
+		this.ocupao = true;
+	}
+	public void eliminarCarta(){
+		this.carta_alojada = null;
+		this.ocupao = false;
+	}
+	public boolean gA(){return this.arriba;}
+	public boolean gB(){return this.abajo;}
+	public boolean gI(){return this.izquierda;}
+	public boolean gD(){return this.derecha;}
 }

@@ -4,6 +4,7 @@ import saboteadores.mazo.cartas.Carta;
 import saboteadores.mazo.cartas.CartaReparacion;
 import saboteadores.mazo.cartas.CartaSabotaje;
 import saboteadores.mazo.cartas.Carta_Oro;
+import saboteadores.enums.CartaAccionTipo;
 import saboteadores.enums.CartaTipo;
 import saboteadores.enums.Rol;
 import java.util.Iterator;
@@ -24,8 +25,17 @@ public class Jugador {
 	public ArrayList<Carta> getManoJugador(){
 		return this.mano;
 	}
+	public ArrayList<Carta_Oro> getOrosJugador(){
+		return this.orosVistos;
+	}
+	public ArrayList<CartaSabotaje> getRestriccionesJugador(){
+		return this.restricciones;
+	}
 	public String getNombre(){
 		return this.nombre;
+	}
+	public Rol getRol(){
+		return this.rol;
 	}
 	public boolean agregarRestriccion(Carta carta){
 		boolean estado = false;
@@ -47,6 +57,14 @@ public class Jugador {
 					it.remove();   // ← elimina de forma segura
 					estado = true;
 					break; // si solo querés sacar la primera coincidencia
+				}
+				if(cartita.getReparacion2() != CartaAccionTipo.VACIO){
+					if(cartita.getReparacion2() == c.getAccion()){
+						it.remove();   // ← elimina de forma segura
+						estado = true;
+						break; // si solo querés sacar la primera coincidencia
+					}
+
 				}
 			}
 		}

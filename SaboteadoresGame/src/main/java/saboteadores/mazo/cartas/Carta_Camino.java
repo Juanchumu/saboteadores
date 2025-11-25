@@ -18,9 +18,9 @@ public class Carta_Camino extends Carta {
 		super(tipo);
 		this.forma = f;
 		this.arriba = ar;
-		this.arriba = ab;
-		this.arriba = iz;
-		this.arriba = de;
+		this.abajo = ab;
+		this.izquierda = iz;
+		this.derecha = de;
 	}
 	public boolean getArriba(){
 		return this.arriba;
