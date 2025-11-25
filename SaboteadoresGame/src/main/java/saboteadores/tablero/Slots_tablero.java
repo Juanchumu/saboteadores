@@ -35,7 +35,7 @@ public class Slots_tablero {
 		//Tercera Fila 
 		//Entrada
 		slots.add( new Slot( 
-					new Carta_Camino(CartaTipo.CAMINO, true, true, true, true, "#"),
+					new Carta_Camino(CartaTipo.CAMINO, true, true, true, true, "╬"),
 					true,true,false,true
 					));
 		slots.add( new Slot(true,true,false,true));

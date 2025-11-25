@@ -21,7 +21,7 @@ public class Mazo {
 		this.addAcciones();
 		Collections.shuffle(mazo);
 	}
-	public void addCallejonesYCaminos(){
+	private void addCallejonesYCaminos(){
 		//arriba abajo , izquierda derecha
 		mazo.add(new Carta_Camino(CartaTipo.CALLEJON,false,true,false,false,"^"));
 		mazo.add(new Carta_Camino(CartaTipo.CALLEJON,false,false,true,false, ">"));
@@ -75,7 +75,7 @@ public class Mazo {
 		mazo.add(new Carta_Camino(CartaTipo.CALLEJON,true,true,true,true,"┼"));
 	}
 
-	public void addAcciones(){
+	private void addAcciones(){
 
 		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.MINECART));
 		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.MINECART));

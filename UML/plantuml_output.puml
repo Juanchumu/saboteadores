@@ -9,9 +9,7 @@ enum CartaAccionTipo {
 }
 
 enum CartaTipo {
-  ACCION
   CAMINO
-  REVERSO
   CALLEJON
   SABOTAJE
   REPARACION
@@ -63,11 +61,11 @@ class VistaTerminal {
   - int MAX
   - int cartasRestantesMazo
   - Jugador jugador
-  - Tablero tableroJuego
+  - Slots_Tablero tableroJuego
   + vistaPorDefecto(): void
   + iniciarJuego(): void
   + generarJugadores(): ArrayList<String>
-  + actualizarTablero(Tablero): void
+  + actualizarTablero(Slots_Tablero): void
   + cartasRestantes(int): void
   + jugadorActual(Jugador): void
   - verJugadorActual(): void
@@ -75,6 +73,7 @@ class VistaTerminal {
   - verOrosJugador(): void
   - verRestriccionesJugador(): void
   - verTablero(): void
+  - verTableroConPosiciones(): void
   - verCantidadDeCartasRestantes(): void
   + menuDeCartas(): Carta
   + menuOpciones(): int
@@ -115,10 +114,6 @@ class CartaReparacion {
 class CartaSabotaje {
   - CartaAccionTipo sabotaje
   + getAccion(): CartaAccionTipo
-}
-
-class Carta_Accion {
-  ~ Carta_Accion(CartaTipo): public
 }
 
 class Carta_Camino {
@@ -213,12 +208,11 @@ class Tablero {
 Observador <|.. Controlador
 Carta <|-- CartaReparacion
 Carta <|-- CartaSabotaje
-Carta <|-- Carta_Accion
 Carta <|-- Carta_Camino
 Carta_Camino <|-- Carta_Oro
 Observable <|.. Tablero
-Controlador --> Tablero : modelo
-Controlador --> VistaTerminal : vista
+Controlador --> Tablero : tiene
+Controlador --> VistaTerminal : tiene
 Controlador --> Carta : conoce
 Jugador --> Rol : utiliza
 Jugador --> CartaSabotaje : utiliza
@@ -229,14 +223,14 @@ Main --> Tablero : instancia
 Main --> VistaTerminal : instancia
 Main --> Controlador : instancia 
 VistaTerminal --> Jugador : jugador
-VistaTerminal --> Tablero : tableroJuego
+VistaTerminal --> Slots_tablero : conoce
 VistaTerminal --> Carta_Camino : conoce
 VistaTerminal --> CartaReparacion : conoce
 Mazo "1" --> "0..*"  Carta : utiliza
 Carta --> CartaTipo : utiliza
 CartaReparacion --> CartaAccionTipo : utiliza
 CartaSabotaje --> CartaAccionTipo : utiliza
-Slots_tablero "1" --> "1" Slot : aloja
+Slots_tablero "1" --> "*" Slot : aloja
 Slots_tablero "1" --> "1" Mazo_oros : tiene
 Slot "1" --> "1" Carta_Camino : aloja
 Tablero "1"-->"1" Mazo : tiene 

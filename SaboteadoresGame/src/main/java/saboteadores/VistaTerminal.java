@@ -5,6 +5,7 @@ import saboteadores.enums.CartaAccionTipo;
 import saboteadores.enums.CartaTipo.*;
 import saboteadores.tablero.Tablero;
 import saboteadores.tablero.Slot;
+import saboteadores.tablero.Slots_tablero;
 import saboteadores.mazo.cartas.Carta;
 import saboteadores.mazo.cartas.CartaReparacion;
 import saboteadores.mazo.cartas.CartaSabotaje;
@@ -23,21 +24,15 @@ public class VistaTerminal {
 
 	private int cartasRestantesMazo;
 	private Jugador jugador;
-	private Tablero tableroJuego;
+	private Slots_tablero tableroJuego;
 
 	/// por cada interaccion, se muestra denuevo la vista
 	public VistaTerminal(){
 		//this.tableroJuego = tableroJuego;
 		System.out.println("Inicio la vista");
-		//this.jugador = tableroJuego.getJugador(0);
-		//this.verJugadorActual();
-		//this.verCartasJugador();
-		//this.verTablero();
-		//this.verCantidadDeCartasRestantes();
 	}
 	public void vistaPorDefecto(){
 		this.verJugadorActual();
-		//this.verCartasJugador();
 		this.verOrosJugador();
 		this.verRestriccionesJugador();
 		this.verTablero();
@@ -50,18 +45,25 @@ public class VistaTerminal {
 	public ArrayList<String> generarJugadores() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("=== Carga de nombres ===");
-		System.out.print("Ingresa nombres de los jugadores, maximo 10");
-		System.out.print("No tiene que haber nombres repetidos");
+		System.out.print("Ingresa nombres de los jugadores, maximo 10, minimo 3 ");
+		System.out.println("No tiene que haber nombres repetidos ");
 		System.out.println("Escribí 'fin' para terminar antes.");
 		System.out.println();
 
 		while (nombres.size() < MAX) {
 			System.out.print("Ingresá un nombre: ");
 			String nombre = sc.nextLine().trim();
-			// cortar antes
+
 			if (nombre.equalsIgnoreCase("fin")) {
-				System.out.println("Carga finalizada por el usuario.");
-				break;
+				// cortar antes
+				if (nombres.size() > 2) {
+					System.out.println("Carga finalizada por el usuario.");
+					break;
+				}else{
+					System.out.println("Faltan Jugadores..");
+					continue;
+				}
+
 			}
 			// validar vacío
 			if (nombre.isEmpty()) {
@@ -82,10 +84,10 @@ public class VistaTerminal {
 		}
 		return this.nombres;
 	}
-	public void actualizarTablero(Tablero tablero){
+	public void actualizarTablero(Slots_tablero tablero){
 		this.tableroJuego = tablero;
 	}
-	public void cartasRestantes(int cantidad){
+	public void actualizarCartasRestantes(int cantidad){
 		this.cartasRestantesMazo = cantidad;
 	}
 	public void jugadorActual(Jugador j){
@@ -126,7 +128,12 @@ public class VistaTerminal {
 					System.out.println("");
 					break;
 				case SABOTAJE:
-					System.out.println("");
+					if(c instanceof CartaSabotaje){
+						CartaSabotaje sabos = (CartaSabotaje) c;
+						System.out.print(" ");
+						System.out.print(sabos.getAccion());
+						System.out.println(" ");
+					}
 					break;
 				case REPARACION:
 					if(c instanceof CartaReparacion){
@@ -186,10 +193,32 @@ public class VistaTerminal {
 	private void verTablero(){
 		System.out.println("== Tablero Actual: ==");
 		int contador = 0;
+
+		//System.out.print("═  ║  ╔  ╗  ╚  ╝v  ╠  ╣  ╦  ╩  ╬" );
+		System.out.println("╔═════════╗" );
+		for(int fila = 0; fila < 5; fila++){
+			System.out.print("║");
+			for(int columna = 0; columna < 9; columna++){
+				//System.out.print("pos"+contador+"\t" );
+				if(tableroJuego.getSlot(contador).taOcupao() == true){
+					//esto realmente tiene que pedir el array de slots
+					System.out.print(tableroJuego.getSlot(contador).getCartaAlojadaEnSlot().getForma() );
+				}else{
+					System.out.print(" ");
+				}
+				contador ++;
+			}
+			System.out.println("║" );
+		}
+		System.out.println("╚═════════╝");
+	}
+	private void verTableroConPosiciones(){
+		System.out.println("== Tablero con posiciones: ==");
+		int contador = 0;
 		for(int fila = 0; fila < 5; fila++){
 			for(int columna = 0; columna < 9; columna++){
-				System.out.print("pos"+contador+"\t" );
-				if(tableroJuego.taOcupao(contador) == true){
+				System.out.print(contador+">\t" );
+				if(tableroJuego.getSlot(contador).taOcupao() == true){
 					//esto realmente tiene que pedir el array de slots
 					System.out.print(tableroJuego.getSlot(contador).getCartaAlojadaEnSlot().getForma() );
 				}else{
@@ -200,9 +229,10 @@ public class VistaTerminal {
 			System.out.println("");
 		}
 	}
+
 	private void verCantidadDeCartasRestantes(){
 		System.out.println("Cartas Restantes en mazo:" 
-				+this.tableroJuego.getCantidadRestanteMazo() );
+				+this.cartasRestantesMazo );
 	}
 	public Carta menuDeCartas() {
 		Scanner sc = new Scanner(System.in);
@@ -281,6 +311,7 @@ public class VistaTerminal {
 		return objetivo;
 	}
 	public int menuElegirOro() {
+		verTableroConPosiciones();
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Elegí una Meta objetivo:");
 		System.out.println(" 8 |  26 | 44 ");
@@ -301,14 +332,25 @@ public class VistaTerminal {
 		Scanner sc = new Scanner(System.in);
 		int accion = sc.nextInt();
 		sc.nextLine();
+		while( accion != 1 && accion!=2 ) {
+			System.out.println("opcion inválida.");
+			accion = sc.nextInt();
+			sc.nextLine();
+		}
 		return accion;
 	}
 	public int introducirPosicion() {
+		verTableroConPosiciones();
 		System.out.println("Elegi entre 0 y 44");
 		System.out.print("Posicion: ");
 		Scanner sc = new Scanner(System.in);
 		int accion = sc.nextInt();
 		sc.nextLine();
+		while( accion < 0 || accion > 44 ) {
+			System.out.println("opcion inválida.");
+			accion = sc.nextInt();
+			sc.nextLine();
+		}
 		return accion;
 	}
 }

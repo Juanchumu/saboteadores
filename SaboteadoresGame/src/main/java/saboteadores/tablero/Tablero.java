@@ -23,8 +23,6 @@ public class Tablero implements Observable {
 	private List<Observador> observadores;
 
 	private boolean jugable;
-	private boolean esperandoAccion = false;
-	//private ArrayList<Carta> mazo;
 	private Mazo mazo;
 	private Slots_tablero slots;
 	private ArrayList<Jugador> jugadores;
@@ -140,6 +138,10 @@ public class Tablero implements Observable {
 		}
 	}
 
+	public Slots_tablero getTableroConSlots(){
+		return this.slots;
+	}
+
 
 
 	public void quieroVerOro(Carta carta, int pos, String quien ){
@@ -166,9 +168,6 @@ public class Tablero implements Observable {
 				notificarObservadores();
 			}
 		}
-	}
-	public Slot getSlot(int pos){
-		return this.slots.getSlot(pos);
 	}
 
 	public boolean sePuedePoner(Carta_Camino carta, int pos){
@@ -339,19 +338,18 @@ public class Tablero implements Observable {
 			notificarObservadores();
 		}
 	}
-	public boolean taOcupao(int pos){
-		return slots.getSlot(pos).taOcupao();
-	}
 	public void derrumbar(Carta carta, int pos, String quien){
 		boolean fallido = false;
-		if(carta.getTipo() == CartaTipo.DERRUMBE){
-			if(this.slots.getSlot(pos).taOcupao()){
-				this.slots.getSlot(pos).eliminarCarta();
+		if( (pos != 18)&&(pos !=8)&&(pos !=26)&&(pos !=44) ){
+			if(carta.getTipo() == CartaTipo.DERRUMBE){
+				if(this.slots.getSlot(pos).taOcupao()){
+					this.slots.getSlot(pos).eliminarCarta();
+				}else{
+					fallido = true;
+				}
 			}else{
 				fallido = true;
 			}
-		}else{
-			fallido = true;
 		}
 		if(fallido){	
 			System.out.println("ingreso fallido");

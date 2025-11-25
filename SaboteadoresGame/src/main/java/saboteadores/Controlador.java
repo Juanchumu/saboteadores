@@ -73,8 +73,10 @@ public class Controlador implements Observador {
 	public void actualizar(){
 		//vista.MostrarTareas(modelo.getListaTareas());
 		vista.jugadorActual(this.modelo.getJugadorActual());
-		vista.cartasRestantes(modelo.getCantidadRestanteMazo());
-		vista.actualizarTablero(this.modelo ); //se puede mejorar
+		vista.actualizarCartasRestantes(modelo.getCantidadRestanteMazo());
+		vista.actualizarTablero(
+				modelo.getTableroConSlots() 
+				); //se puede mejorar
 		opciones();
 	}
 	
