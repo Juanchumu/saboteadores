@@ -17,6 +17,7 @@ import saboteadores.Jugador;
 import saboteadores.mazo.cartas.Carta;
 import saboteadores.mazo.cartas.CartaReparacion;
 import saboteadores.mazo.cartas.CartaSabotaje;
+import saboteadores.mazo.cartas.CartaSimple;
 
 public class Tablero implements Observable {
 
@@ -144,188 +145,56 @@ public class Tablero implements Observable {
 
 
 
-	public void quieroVerOro(Carta carta, int pos, String quien ){
+	public void quieroVerOro(Carta carta, int pos, String NombreJugadorJugando ){
 		// Se devuelven 2 cartas
 		//if la carta es de ver
 		//devuelve una copia de la carta meta 
 		//osea, el jugador puede guardarla que es
 		//si no es, deberia devolver error, como jugada imposible
-		if ( pos == 8 | pos == 26 | pos == 44 ){
-			if(carta.getTipo() == CartaTipo.VISTA){
-				for(Jugador j: jugadores){
-					if(j.getNombre() == quien){
-						j.agregarOrosVistos(this.slots.getSlot(pos).getCartaAlojadaEnSlot() );
-						//HUBO CAMBIOS
-						borrarCartaYDarUnaNueva(carta,quien);
-						siguienteTurno();
-						notificarObservadores();
-					}
-				}
-			}else{
-				//intento fallido 
-				borrarCartaYDarUnaNueva(carta,quien);
-				siguienteTurno();
-				notificarObservadores();
-			}
-		}
-	}
+		//
+		boolean fallido = true; 
+		if(carta instanceof CartaSimple){
+			CartaSimple cartita = (CartaSimple) carta;
+			if ( pos == 8 | pos == 26 | pos == 44 ){
+				if(cartita.esVista()){
+					for(Jugador j: jugadores){
+						if(j.getNombre() == NombreJugadorJugando){
 
-	public boolean sePuedePoner(Carta_Camino carta, int pos){
-		boolean estado = true;
-		int colocar = 0;
-		Slot espacio = this.slots.getSlot(pos);
-		Slot espacioAVerificar;
-		Carta_Camino ah;
-		//chequeo la posicion, los arriba y abajo de las cartas aledañas
-		if(espacio.taOcupao()){
-			//System.out.println("Espacio Ocupado");
-			estado = false;
-		}else{
-			//System.out.println("estos if se pasan de largo");
-			if(espacio.gA()){
-				//System.out.println("Arriba");
-				//no hace falta comprobar 9 espacios atras
-				espacioAVerificar = this.slots.getSlot(pos-9);
-				if(espacioAVerificar.taOcupao()){
-					//System.out.println("Ocupado");
-					if(espacioAVerificar.getCartaAlojadaEnSlot().getTipo() == CartaTipo.CAMINO){
-						System.out.println("CartaCamino");
-						//castear 
-						if(espacioAVerificar.getCartaAlojadaEnSlot() instanceof Carta_Camino){
-							System.out.println("es una instancia ");
-							ah = (Carta_Camino) espacioAVerificar.getCartaAlojadaEnSlot();
-							System.out.println(ah.getForma());
-							if(ah.getAbajo()){
-								System.out.println("se puede conectar");
-								//esta carta se puede poner
-								colocar++;
-							}
-						}
-					}
-				}
-			}
-			if(espacio.gB()){
-				//no hace falta comprobar 9 espacios adelante
-				espacioAVerificar = this.slots.getSlot(pos + 9);
-				if(espacioAVerificar.taOcupao()){
-					if(espacioAVerificar.getCartaAlojadaEnSlot().getTipo() == CartaTipo.CAMINO){
-						if(espacioAVerificar.getCartaAlojadaEnSlot().getArriba()){
-							//esta carta se puede poner
-							colocar++;
-						}
-					}
-				}
-			}
-			if(espacio.gI()){
-				System.out.println("a la izquierda hay espacio");
-				//no hace falta comprobar espacio -1 
-				espacioAVerificar = this.slots.getSlot(pos - 1);
-				if(espacioAVerificar.taOcupao()){
-					System.out.println("ocupado");
-					if(espacioAVerificar.getCartaAlojadaEnSlot().getTipo() == CartaTipo.CAMINO){
-						System.out.println("es un camino");
-						if(espacioAVerificar.getCartaAlojadaEnSlot().getDerecha()){
-							System.out.println("derecha disponible");
-							//esta carta se puede poner
-							colocar++;
-						}
-					}
-				}
-			}
-			if(espacio.gD()){
-				//no hace falta comprobar espacio +1 
-				espacioAVerificar = this.slots.getSlot(pos + 1);
-				if(espacioAVerificar.taOcupao()){
-					if(espacioAVerificar.getCartaAlojadaEnSlot().getTipo() == CartaTipo.CAMINO){
-						if(espacioAVerificar.getCartaAlojadaEnSlot().getIzquierda()){
-							//esta carta se puede poner
-							colocar++;
-						}
-					}
-				}
-			}
-			if(colocar > 0){
-				System.out.println("Colocar mayor a 0");
-				estado = true;
-			}else{
-				System.out.println("Colocar menor a 0");
-				estado = false;
-			}
-
-		}
-		return estado;
-	}
-	public void cartasConectorEsMeta(int pos){
-		Slot espacio = this.slots.getSlot(pos);
-		Slot espacioAVerificar;
-		if(espacio.gA()){
-			//no hace falta comprobar 9 espacios atras
-			espacioAVerificar = this.slots.getSlot(pos-9);
-			if(espacioAVerificar.taOcupao()){
-				if(espacioAVerificar.getCartaAlojadaEnSlot().getTipo() == CartaTipo.CAMINO){
-					if(espacioAVerificar.getCartaAlojadaEnSlot() instanceof Carta_Oro){
-						Carta_Oro aver = (Carta_Oro) espacioAVerificar.getCartaAlojadaEnSlot();
-						if(aver.getOro()){
-							ganarPartida(); 
-						}
-					}
-				}
-			}
-		}
-		if(espacio.gB()){
-			//no hace falta comprobar 9 espacios adelante
-			espacioAVerificar = this.slots.getSlot(pos+9);
-			if(espacioAVerificar.taOcupao()){
-				if(espacioAVerificar.getCartaAlojadaEnSlot().getTipo() == CartaTipo.CAMINO){
-					if(espacioAVerificar.getCartaAlojadaEnSlot() instanceof Carta_Oro){
-						Carta_Oro aver = (Carta_Oro) espacioAVerificar.getCartaAlojadaEnSlot();
-						if(aver.getOro()){
-							ganarPartida(); 
-						}
-					}
-				}
-			}
-		}
-		if(espacio.gI()){
-			//no hace falta comprobar espacios atras
-			espacioAVerificar = this.slots.getSlot(pos-1);
-			if(espacioAVerificar.taOcupao()){
-				if(espacioAVerificar.getCartaAlojadaEnSlot().getTipo() == CartaTipo.CAMINO){
-					if(espacioAVerificar.getCartaAlojadaEnSlot() instanceof Carta_Oro){
-						Carta_Oro aver = (Carta_Oro) espacioAVerificar.getCartaAlojadaEnSlot();
-						if(aver.getOro()){
-							ganarPartida(); 
-						}
-					}
-				}
-			}
-		}
-		if(espacio.gD()){
-			//no hace falta comprobar espacios adelante
-			espacioAVerificar = this.slots.getSlot(pos+1);
-			if(espacioAVerificar.taOcupao()){
-				if(espacioAVerificar.getCartaAlojadaEnSlot().getTipo() == CartaTipo.CAMINO){
-					if(espacioAVerificar.getCartaAlojadaEnSlot() instanceof Carta_Oro){
-						Carta_Oro aver = (Carta_Oro) espacioAVerificar.getCartaAlojadaEnSlot();
-						if(aver.getOro()){
-							ganarPartida(); 
+							//Primer Carta devuelta 
+							j.agregarOrosVistos(this.slots.getSlot(pos).getCartaAlojadaEnSlot() );
+							//HUBO CAMBIOS
+							//Segunda Carta Devuelta
+							borrarCartaYDarUnaNueva(carta,NombreJugadorJugando);
+							siguienteTurno();
+							notificarObservadores();
+							fallido = false;
 						}
 					}
 				}
 			}
 		}
 
+		if(fallido){
+			//intento fallido 
+			borrarCartaYDarUnaNueva(carta,NombreJugadorJugando);
+			siguienteTurno();
+			notificarObservadores();
+		}
 	}
+
 	public void ponerCartaTablero(Carta carta, int pos, String quien){
 		boolean fallido = true; 
 		if(carta instanceof Carta_Camino){
 			Carta_Camino camino = (Carta_Camino) carta;
-			if(sePuedePoner(camino, pos)){
+			//si se puede poner, se pone
+			if(this.slots.getSlot(pos).alojarCarta(camino) ){
 				//se pudo poner 
 				System.out.println("sepudoponer");
-				this.slots.getSlot(pos).alojarCarta(camino);
+				//this.slots.getSlot(pos).alojarCarta(camino);
 				//se chequea si conecta con la meta
-				cartasConectorEsMeta(pos);
+				if(this.slots.getSlot(pos).slotConectadoALaMeta()){
+					ganarPartida();
+				}
 				//si es carbon se sigue
 				fallido = false;
 				borrarCartaYDarUnaNueva(carta, quien);
@@ -343,25 +212,24 @@ public class Tablero implements Observable {
 		}
 	}
 	public void derrumbar(Carta carta, int pos, String quien){
-		boolean fallido = false;
+		boolean fallido = true;
+		if(carta instanceof CartaSimple){
+			CartaSimple cartita = (CartaSimple) carta; 
 		if( (pos != 18)&&(pos !=8)&&(pos !=26)&&(pos !=44) ){
-			if(carta.getTipo() == CartaTipo.DERRUMBE){
-				if(this.slots.getSlot(pos).taOcupao()){
-					this.slots.getSlot(pos).eliminarCarta();
-				}else{
-					fallido = true;
-				}
-			}else{
-				fallido = true;
+			if(cartita.esDerrumbe() == true ){
+				//se elimina la carta en este slot
+				this.slots.getSlot(pos).eliminarCartaAlojada();	
+				fallido = false;
 			}
 		}
+		}
+
 		if(fallido){	
 			System.out.println("ingreso fallido");
 			borrarCartaYDarUnaNueva(carta, quien);
 			siguienteTurno();
 			notificarObservadores();
 		}
-
 	}
 	public void descartarCarta(Carta carta, String quien){
 		borrarCartaYDarUnaNueva(carta, quien);
@@ -394,8 +262,8 @@ public class Tablero implements Observable {
 					mano.add(nueva);
 				}else{
 					//Se recibio una carta que no esta en el mazo
-					//System.out.println("El jugador"+jugador+"Hizo trampa.");
-					//this.jugable = false;
+					System.out.println("El jugador"+jugador+"Hizo trampa.");
+					this.jugable = false;
 				}
 				return;  // ya encontramos al jugador, salimos del método
 			}
@@ -404,7 +272,7 @@ public class Tablero implements Observable {
 
 
 	public void ponerCartaSobreJugador(Carta carta, String jugadorObjetivo, String quien){
-		if(carta.getTipo() == CartaTipo.SABOTAJE && carta instanceof CartaSabotaje){
+		if(carta instanceof CartaSabotaje){
 			CartaSabotaje cartita = (CartaSabotaje) carta;
 			for(Jugador j: jugadores){
 				if(j.getNombre() == jugadorObjetivo){
@@ -416,7 +284,7 @@ public class Tablero implements Observable {
 				}
 			}
 		}else{
-			if(carta.getTipo() == CartaTipo.REPARACION && carta instanceof CartaReparacion){
+			if(carta instanceof CartaReparacion){
 				CartaReparacion cartita = (CartaReparacion) carta;
 				for(Jugador j: jugadores){
 					if(j.getNombre() == jugadorObjetivo){

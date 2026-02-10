@@ -1,10 +1,8 @@
 package saboteadores.mazo.cartas;
 import saboteadores.enums.CartaAccionTipo;
-import saboteadores.enums.CartaTipo;
-public class CartaSabotaje extends Carta{
+public class CartaSabotaje extends CartaJugableEnJugadores{
 	private CartaAccionTipo sabotaje;
-	public CartaSabotaje(CartaTipo tipo, CartaAccionTipo sabotaje){
-		super(tipo);
+	public CartaSabotaje(CartaAccionTipo sabotaje){
 		this.sabotaje = sabotaje;
 	}
 	public CartaAccionTipo getAccion(){

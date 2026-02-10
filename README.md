@@ -8,4 +8,4 @@ pararse en el directorio /SaboteadoresGame/
 
 y correr: 
 
-mvn exec:java -Dexec.main.Class="saboteadores.Main"
+mvn exec:java -Dexec.mainClass=saboteadores.Main

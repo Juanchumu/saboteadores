@@ -31,6 +31,9 @@ public class VistaTerminal {
 		System.out.println("Inicio la vista");
 	}
 	public void vistaPorDefecto(){
+		for (int i = 0; i < 50; i++) {
+			System.out.println(" ");
+		}
 		this.verJugadorActual();
 		this.verOrosJugador();
 		this.verRestriccionesJugador();

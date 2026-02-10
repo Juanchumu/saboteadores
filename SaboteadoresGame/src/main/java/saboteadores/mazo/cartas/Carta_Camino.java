@@ -1,26 +1,40 @@
 package saboteadores.mazo.cartas;
-//import sab.Posiciones;
 
-import saboteadores.enums.CartaTipo;
-public class Carta_Camino extends Carta {
+public class Carta_Camino extends CartaJugableEnTablero {
+	private boolean callejon;
 	private String forma;
 	private boolean arriba;
 	private boolean abajo;
 	private boolean izquierda;
 	private boolean derecha;
+	
+	private boolean meta;
+	private boolean oro;
+	//Constructor para una carta Meta 
+	public Carta_Camino(boolean meta, boolean oro){
+		this.forma = "X";
+		this.meta = meta;
+		this.oro = oro;
+		this.arriba = true;
+		this.abajo = true;
+		this.izquierda = true;
+		this.derecha = true;	
+	}
+	//Constructor para una carta Camino 
 	public Carta_Camino(
-			CartaTipo tipo, //callejon sin salida o camino 
+			boolean callejon,
 			boolean ar, 
 			boolean ab,
 			boolean iz,
 			boolean de,
-			String f){
-		super(tipo);
+			String f
+			){
 		this.forma = f;
 		this.arriba = ar;
 		this.abajo = ab;
 		this.izquierda = iz;
 		this.derecha = de;
+		this.callejon = callejon;
 	}
 	public boolean getArriba(){
 		return this.arriba;
@@ -37,4 +51,14 @@ public class Carta_Camino extends Carta {
 	public String getForma(){
 		return this.forma;
 	}
+	public boolean esUnCallejon(){
+		return this.callejon;
+	}
+	public boolean esMeta(){
+		return this.meta;
+	}
+	public boolean getOro(){
+		return this.oro;
+	}
+
 }
