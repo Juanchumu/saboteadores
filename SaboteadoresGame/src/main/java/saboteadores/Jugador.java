@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import saboteadores.mazo.cartas.Carta;
 import saboteadores.mazo.cartas.CartaReparacion;
 import saboteadores.mazo.cartas.CartaSabotaje;
+import saboteadores.mazo.cartas.Carta_Camino;
 import saboteadores.mazo.cartas.Carta_Oro;
 import saboteadores.enums.CartaAccionTipo;
 import saboteadores.enums.CartaTipo;
@@ -13,19 +14,21 @@ public class Jugador {
 	private String nombre;
 	private ArrayList<Carta> mano;
 	private ArrayList<CartaSabotaje> restricciones;
-	private ArrayList<Carta_Oro> orosVistos;
+	private ArrayList<Carta_Camino> orosVistos;
 	private Rol rol;
+	private int puntos;
 	public Jugador(String n, ArrayList<Carta> m, Rol r){
+		this.puntos = 0; //puntos iniciales en la creacion del jugador 
 		this.nombre = n;
 		this.mano = m; 
 		this.rol = r ;
 		this.restricciones = new ArrayList<CartaSabotaje>();
-		this.orosVistos = new ArrayList<Carta_Oro>();
+		this.orosVistos = new ArrayList<Carta_Camino>();
 	}
 	public ArrayList<Carta> getManoJugador(){
 		return this.mano;
 	}
-	public ArrayList<Carta_Oro> getOrosJugador(){
+	public ArrayList<Carta_Camino> getOrosJugador(){
 		return this.orosVistos;
 	}
 	public ArrayList<CartaSabotaje> getRestriccionesJugador(){
@@ -37,9 +40,15 @@ public class Jugador {
 	public Rol getRol(){
 		return this.rol;
 	}
+	public void sumarPuntosJugador(int puntos){
+		this.puntos = this.puntos + puntos;
+	}
+	public int getPuntos(){
+		return this.puntos;
+	}
 	public boolean agregarRestriccion(Carta carta){
 		boolean estado = false;
-		if(carta.getTipo() == CartaTipo.SABOTAJE && carta instanceof CartaSabotaje ){
+		if(carta instanceof CartaSabotaje ){
 			CartaSabotaje cartita = (CartaSabotaje) carta;
 			this.restricciones.add(cartita);
 			estado = true;
@@ -48,7 +57,7 @@ public class Jugador {
 	}
 	public boolean quitarRestriccion(Carta carta){
 		boolean estado = false;
-		if(carta.getTipo() == CartaTipo.REPARACION && carta instanceof CartaReparacion ){
+		if(carta instanceof CartaReparacion ){
 			CartaReparacion cartita = (CartaReparacion) carta;
 			Iterator<CartaSabotaje> it = this.restricciones.iterator();
 			while(it.hasNext()){
@@ -74,8 +83,8 @@ public class Jugador {
 		return this.restricciones.isEmpty();
 	}
 	public void agregarOrosVistos(Carta carta){
-		if(carta.getTipo() == CartaTipo.CAMINO && carta instanceof Carta_Oro){
-			Carta_Oro oritolindo = (Carta_Oro) carta;
+		if(carta instanceof Carta_Camino){
+			Carta_Camino oritolindo = (Carta_Camino) carta;
 			this.orosVistos.add(oritolindo);
 		}
 	}

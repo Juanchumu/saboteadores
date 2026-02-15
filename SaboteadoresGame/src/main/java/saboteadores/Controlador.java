@@ -16,7 +16,7 @@ public class Controlador implements Observador {
 		this.modelo.agregarObservador(this);
 	}
 	public void iniciar(){
-		this.vista.iniciarJuego();
+		this.vista.iniciarJuego(this.modelo.getLargo());
 		this.cargarJugadores();
 	}
 	public void cargarJugadores(){
@@ -33,7 +33,11 @@ public class Controlador implements Observador {
 		switch (opcion) {
         case 1:
             //Jugando la carta sobre el tablero...
-            switch(vista.menuJugarEnTablero()){
+			this.modelo.ponerCartaTablero(cartita,
+							vista.introducirPosicion(),
+							this.modelo.getJugadorActual().getNombre());
+            /* ya no se usa 
+			switch(vista.menuJugarEnTablero()){
 				case 1:
 					this.modelo.ponerCartaTablero(cartita,
 							vista.introducirPosicion(),
@@ -44,7 +48,8 @@ public class Controlador implements Observador {
 							vista.menuElegirOro(),
 							//Quien?
 							this.modelo.getJugadorActual().getNombre() );
-			}
+				}
+			*/
             break;
         case 2:
             //Jugando la carta sobre un jugador...
@@ -71,6 +76,7 @@ public class Controlador implements Observador {
 
 	@Override
 	public void actualizar(){
+		if(this.modelo.esJugable()){
 		//vista.MostrarTareas(modelo.getListaTareas());
 		vista.jugadorActual(this.modelo.getJugadorActual());
 		vista.actualizarCartasRestantes(modelo.getCantidadRestanteMazo());
@@ -78,6 +84,7 @@ public class Controlador implements Observador {
 				modelo.getTableroConSlots() 
 				); //se puede mejorar
 		opciones();
+		}
 	}
 	
 }

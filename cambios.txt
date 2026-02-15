@@ -1,0 +1,7 @@
+15-02-2026
+
+hubo muchos cambios, 
+
++ahora los jugadores almacenan su puntuacion
++al jugar una carta sobre el tablero, el modelo decide que accion tomar
++derrumbar funciona

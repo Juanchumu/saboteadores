@@ -12,13 +12,18 @@ public class Carta_Camino extends CartaJugableEnTablero {
 	private boolean oro;
 	//Constructor para una carta Meta 
 	public Carta_Camino(boolean meta, boolean oro){
-		this.forma = "X";
+		//this.forma = "#";
 		this.meta = meta;
 		this.oro = oro;
 		this.arriba = true;
 		this.abajo = true;
 		this.izquierda = true;
-		this.derecha = true;	
+		this.derecha = true;
+		if(oro){
+			this.forma = "O";
+		}else{
+			this.forma = "C";
+		}
 	}
 	//Constructor para una carta Camino 
 	public Carta_Camino(

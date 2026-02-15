@@ -8,6 +8,7 @@ import saboteadores.mazo.cartas.Carta_Accion;
 import saboteadores.mazo.cartas.Carta_Camino;
 import saboteadores.mazo.cartas.CartaReparacion;
 import saboteadores.mazo.cartas.CartaSabotaje;
+import saboteadores.mazo.cartas.CartaSimple;
 
 import java.util.Collections;
 
@@ -76,45 +77,36 @@ public class Mazo {
 	}
 
 	private void addAcciones(){
+		for(int i = 0; i<3; i++){
+		mazo.add(new CartaSabotaje(CartaAccionTipo.MINECART));
+		}
 
-		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.MINECART));
-		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.MINECART));
-		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.MINECART));
+		for(int i = 0; i<3; i++){
+		mazo.add(new CartaSabotaje(CartaAccionTipo.ANTORCHA));
+		}		
+		for(int i = 0; i<3; i++){
+		mazo.add(new CartaSabotaje(CartaAccionTipo.PICO));
+		}
 
+		mazo.add(new CartaReparacion(CartaAccionTipo.PICO, CartaAccionTipo.VACIO));
+		mazo.add(new CartaReparacion(CartaAccionTipo.PICO, CartaAccionTipo.VACIO));
+		mazo.add(new CartaReparacion(CartaAccionTipo.ANTORCHA, CartaAccionTipo.VACIO));
+		mazo.add(new CartaReparacion(CartaAccionTipo.ANTORCHA, CartaAccionTipo.VACIO));
+		mazo.add(new CartaReparacion(CartaAccionTipo.MINECART, CartaAccionTipo.VACIO));
+		mazo.add(new CartaReparacion(CartaAccionTipo.MINECART, CartaAccionTipo.VACIO));
 
-		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.ANTORCHA));
-		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.ANTORCHA));
-		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.ANTORCHA));
-		
-		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.PICO));
-		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.PICO));
-		mazo.add(new CartaSabotaje(CartaTipo.SABOTAJE, CartaAccionTipo.PICO));
-
-
-		mazo.add(new CartaReparacion(CartaTipo.REPARACION, CartaAccionTipo.PICO, CartaAccionTipo.VACIO));
-		mazo.add(new CartaReparacion(CartaTipo.REPARACION, CartaAccionTipo.PICO, CartaAccionTipo.VACIO));
-		mazo.add(new CartaReparacion(CartaTipo.REPARACION, CartaAccionTipo.ANTORCHA, CartaAccionTipo.VACIO));
-		mazo.add(new CartaReparacion(CartaTipo.REPARACION, CartaAccionTipo.ANTORCHA, CartaAccionTipo.VACIO));
-		mazo.add(new CartaReparacion(CartaTipo.REPARACION, CartaAccionTipo.MINECART, CartaAccionTipo.VACIO));
-		mazo.add(new CartaReparacion(CartaTipo.REPARACION, CartaAccionTipo.MINECART, CartaAccionTipo.VACIO));
-
-
-		mazo.add(new CartaReparacion(
-					CartaTipo.REPARACION,
-					CartaAccionTipo.PICO,
-					CartaAccionTipo.MINECART
-					));
-		mazo.add(new CartaReparacion(CartaTipo.REPARACION, CartaAccionTipo.PICO, CartaAccionTipo.ANTORCHA));
-		mazo.add(new CartaReparacion(CartaTipo.REPARACION, CartaAccionTipo.ANTORCHA, CartaAccionTipo.MINECART));
+		mazo.add(new CartaReparacion(CartaAccionTipo.PICO,CartaAccionTipo.MINECART));
+		mazo.add(new CartaReparacion(CartaAccionTipo.PICO, CartaAccionTipo.ANTORCHA));
+		mazo.add(new CartaReparacion(CartaAccionTipo.ANTORCHA, CartaAccionTipo.MINECART));
 
 
 		//Cartas Vista
 		for(int i = 0; i < 6; i++){
-			mazo.add( new Carta(true));
+			mazo.add( new CartaSimple(true));
 		}
 		//Cartas Derrumbe
 		for(int i = 0; i < 4; i++){
-			mazo.add( new Carta(false));
+			mazo.add( new CartaSimple(false));
 		}
 
 	}
@@ -136,5 +128,8 @@ public class Mazo {
 	}
 	public int getCantidadRestanteMazo(){
 		return this.mazo.size();
+	}
+	public void eliminarCarta(){
+		this.mazo.remove(this.mazo.size() - 1);  // elimina el último 
 	}
 }

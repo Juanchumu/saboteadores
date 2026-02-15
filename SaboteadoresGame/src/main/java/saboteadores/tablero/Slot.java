@@ -2,6 +2,7 @@ package saboteadores.tablero;
 
 import saboteadores.mazo.cartas.Carta;
 import saboteadores.mazo.cartas.CartaJugableEnTablero;
+import saboteadores.mazo.cartas.CartaSimple;
 import saboteadores.mazo.cartas.Carta_Camino;
 import saboteadores.mazo.cartas.Carta_Oro;
 import saboteadores.enums.CartaTipo;
@@ -19,7 +20,8 @@ public class Slot {
 
 
 	public void eliminarCartaAlojada(){
-		carta_alojada = null; 
+		carta_alojada = null;
+		this.forma = "";
 	}
 
 	// Cada slot tiene que recibir los slots adyacentes (conectables)
@@ -63,13 +65,20 @@ public class Slot {
 		// Si no hay carta alojada, devuelve NULL
 		return this.carta_alojada;
 	}
+	public boolean taOcupao(){
+		boolean estado =false;
+		if(this.carta_alojada != null){
+			estado = true;
+		}
+		return estado;
+	}
 	public boolean slotConectadoALaMeta(){
 		return estoyConectadoConLaMeta;
 	}
 
 	//FuncionesSeters
 
-	public boolean alojarCarta(Carta carta){
+	public boolean alojarCarta(Carta cartaRecibida){
 		//verificar si es una instancia de carta camino
 		//
 		//verificar si es una 
@@ -77,40 +86,50 @@ public class Slot {
 		//      Entrada
 		//		Meta (Carbon u oro)
 		//		Derrumbe
-		if(carta.getTipo() == CartaTipo.DERRUMBE){
+		if(cartaRecibida instanceof CartaSimple){
+			CartaSimple cartita = (CartaSimple) cartaRecibida;
+			if(cartita.esDerrumbe()){
 			this.eliminarCartaAlojada();
 			return true;
+			}
 		}
 
-		if(carta instanceof Carta_Camino){
+		if(cartaRecibida instanceof Carta_Camino){
 			System.out.println("es de instancia camino");
 		}else{
 			return false;
 		}
-
-		Carta_Camino carta = ((Carta_Camino) carta);
+		Carta_Camino carta = ((Carta_Camino) cartaRecibida);
 		//verificamos los conectores de la carta que se quiere alojar y de ahi los slots 
 		//si se puede unir con alguno, entonces la carta se añade
 		boolean conexion = false;
 		if(carta.getArriba() && 
+				this.arriba != null && 
+				this.arriba.getCartaAlojadaEnSlot() != null && 
 				this.arriba.getCartaAlojadaEnSlot().esUnCallejon() == false && 
 				this.arriba.getCartaAlojadaEnSlot().getAbajo()){
 			conexion = true;
 			checkConexionMeta(this.arriba);
 		}
 		if(carta.getAbajo() && 
+				this.abajo != null && 
+				this.abajo.getCartaAlojadaEnSlot() != null && 
 				this.abajo.getCartaAlojadaEnSlot().esUnCallejon() == false && 
 				this.abajo.getCartaAlojadaEnSlot().getArriba()){
 			conexion = true;
 			checkConexionMeta(this.abajo);
 		}
 		if(carta.getIzquierda() && 
+				this.izquierda != null && 
+				this.izquierda.getCartaAlojadaEnSlot()  != null && 
 				this.izquierda.getCartaAlojadaEnSlot().esUnCallejon() == false && 
 				this.izquierda.getCartaAlojadaEnSlot().getDerecha()){
 			conexion = true;
 			checkConexionMeta(this.izquierda);
 		}
 		if(carta.getDerecha() && 
+				this.derecha != null && 
+				this.derecha.getCartaAlojadaEnSlot() != null && 
 				this.derecha.getCartaAlojadaEnSlot().esUnCallejon() == false && 
 				this.derecha.getCartaAlojadaEnSlot().getIzquierda()){
 			conexion = true;
