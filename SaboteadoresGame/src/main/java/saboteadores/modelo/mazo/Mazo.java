@@ -1,5 +1,6 @@
 package saboteadores.modelo.mazo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import saboteadores.modelo.enums.CartaAccionTipo;
 //import saboteadores.enums.CartaTipo;
@@ -12,7 +13,8 @@ import saboteadores.modelo.mazo.cartas.CartaSimple;
 
 import java.util.Collections;
 
-public class Mazo {
+public class Mazo implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Carta>  mazo;
 
 	public Mazo(){

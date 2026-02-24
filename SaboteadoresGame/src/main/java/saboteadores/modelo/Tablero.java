@@ -25,7 +25,9 @@ import saboteadores.modelo.mazo.cartas.CartaSimple;
 
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
-public class Tablero extends ObservableRemoto implements ITablero {
+import java.io.*;
+public class Tablero extends ObservableRemoto implements ITablero, Serializable {
+	private static final long serialVersionUID = 1L;
 
 	//private List<Observador> observadores;
 
@@ -41,9 +43,20 @@ public class Tablero extends ObservableRemoto implements ITablero {
 	//Cartas de oros para los mineros 
 	private MazoPepitas mazoPepitasMineros;
 
-	private int largoTablero; 
+	private int largoTablero;
 
-	public Tablero(){
+	private Top top;
+
+	private void reiniciarElJuego(){
+		System.out.println("Se reinicio el juego.");
+		this.incializar();
+		this.jugadores.clear();
+		this.jugadoresListos.clear(); 
+		this.jugadoresNuevos.clear();
+	}
+
+	public Tablero(Top top ){
+		this.top = top;
 		jugadoresListos = new ArrayList<>();
 		jugadoresNuevos = new ArrayList<>();
 		//Configuracion de pruebas 
@@ -57,9 +70,9 @@ public class Tablero extends ObservableRemoto implements ITablero {
 		this.jugadoresNuevos.add("Thiago");
 
 		//this.observadores = new ArrayList<Observador>();
-		try{
-		this.incializar();
-		}catch (RemoteException e){e.printStackTrace();}
+		//try{
+		//this.incializar();
+		//}catch (RemoteException e){e.printStackTrace();}
 	}
 	public int getLargo(
 			) throws RemoteException {
@@ -73,6 +86,9 @@ public class Tablero extends ObservableRemoto implements ITablero {
 		for(int i = 0; i<cantidad;i++){
 			this.mazo.eliminarCarta();
 		}
+	}
+	public Top getTop() throws RemoteException{
+		return this.top;
 	}
 	public Jugador devolverJugador(String nombre) throws RemoteException {
 		Jugador aux = new Jugador("Steve", null, null);
@@ -110,6 +126,7 @@ public class Tablero extends ObservableRemoto implements ITablero {
 			throw new IllegalArgumentException("Ese nombre ya está en uso");
 		}
 		jugadoresNuevos.add(nombre);
+		System.out.println(nombre+ " se unio a la partida");
 	}
 
 	public void agregarJugadores(ArrayList<String> jugadoresNuevos
@@ -119,8 +136,7 @@ public class Tablero extends ObservableRemoto implements ITablero {
 		//estos 2 se necesitan
 		
 	}
-	public void incializar(
-			) throws RemoteException {
+	public void incializar(){
 		this.jugable = false;
 		slots = new Slots_tablero(largoTablero);
 		mazo = new Mazo();
@@ -215,6 +231,7 @@ public class Tablero extends ObservableRemoto implements ITablero {
 		}
 	}
 	public void intentarArrancarElJuego() throws RemoteException{
+		System.out.println("Se intenta arrancar el juego");
 		Collections.sort(this.jugadoresListos);
 		Collections.sort(this.jugadoresNuevos);
 		//tiene que haber 4 jugadores
@@ -231,6 +248,7 @@ public class Tablero extends ObservableRemoto implements ITablero {
 		System.out.println("Se repartieron los roles");
 		this.jugable = true;
 		this.jugadorActual = jugadores.get(turnoActual);
+		guardarEstado();
 		notificarObservadores();//esto tiene que cambiar la pantalla de juego
 	}
 	private void siguienteTurno(){
@@ -252,10 +270,13 @@ public class Tablero extends ObservableRemoto implements ITablero {
 				System.out.print(j.getNombre());
 				System.out.println(" Gano 3 puntos");
 				j.sumarPuntosJugador(3);
+				this.top.agregarPuntosHistorico(j.getNombre(), 3);
 				System.out.println(" Ahora tiene "+j.getPuntos()+" puntos");
 
 			}
 		}
+		this.guardarTop();
+		this.reiniciarElJuego();
 	}
 	private String partidaGanada = "";
 	public String getPartidaGanada() throws RemoteException {
@@ -278,6 +299,10 @@ public class Tablero extends ObservableRemoto implements ITablero {
 						this.partidaGanada = this.partidaGanada + puntuacion +" Puntos\n";
 						System.out.println( puntuacion +" Puntos");
 						j.sumarPuntosJugador(puntuacion);
+
+						//Guardar en el historial
+						this.top.agregarPuntosHistorico(j.getNombre(), puntuacion);
+
 						this.partidaGanada = this.partidaGanada +" Ahora tiene "+j.getPuntos()+" puntos\n";
 						System.out.println(" Ahora tiene "+j.getPuntos()+" puntos");
 					}else{
@@ -287,11 +312,15 @@ public class Tablero extends ObservableRemoto implements ITablero {
 						this.partidaGanada = this.partidaGanada + puntuacion +" Puntos\n";
 						System.out.println( puntuacion +" Puntos");
 						j.sumarPuntosJugador(puntuacion);
+						//Guardar en el historial
+						this.top.agregarPuntosHistorico(j.getNombre(), puntuacion);
 						this.partidaGanada = this.partidaGanada + puntuacion +" Ahora tiene "+j.getPuntos()+" puntos\n";
 						System.out.println(" Ahora tiene "+j.getPuntos()+" puntos");
 					}
 				}
 			}
+			this.guardarTop();
+			this.reiniciarElJuego();
 		}
 	}
 
@@ -399,8 +428,10 @@ public class Tablero extends ObservableRemoto implements ITablero {
 						//si es carbon se sigue
 						borrarCartaYDarUnaNueva(carta, quien);
 						siguienteTurno();
+						guardarEstado();
 						notificarObservadores();
 					}else{
+						guardarEstado();
 						notificarObservadores();
 					}
 					descarte = false;
@@ -413,6 +444,7 @@ public class Tablero extends ObservableRemoto implements ITablero {
 			System.out.println("Se descarta y se da una carta nueva");
 			borrarCartaYDarUnaNueva(carta, quien);
 			siguienteTurno();
+			guardarEstado();
 			notificarObservadores();
 		}
 	}
@@ -450,6 +482,7 @@ public class Tablero extends ObservableRemoto implements ITablero {
 		Carta carta = buscarCarta(posCarta, quien);
 		borrarCartaYDarUnaNueva(carta, quien);
 		siguienteTurno();
+		guardarEstado();
 		notificarObservadores();
 	}
 	public String getJugadorSiguiente(
@@ -515,6 +548,7 @@ public class Tablero extends ObservableRemoto implements ITablero {
 					//Hubo cambios
 					borrarCartaYDarUnaNueva(carta,quien);
 					siguienteTurno();
+					guardarEstado();
 					notificarObservadores();
 				}
 			}
@@ -528,6 +562,7 @@ public class Tablero extends ObservableRemoto implements ITablero {
 						//Hubo cambios
 						borrarCartaYDarUnaNueva(carta,quien);
 						siguienteTurno();
+						guardarEstado();
 						notificarObservadores();
 					}
 				}
@@ -536,10 +571,24 @@ public class Tablero extends ObservableRemoto implements ITablero {
 				//intento fallido
 				borrarCartaYDarUnaNueva(carta,quien);
 				siguienteTurno();
+				guardarEstado();
 				notificarObservadores();
 			}
 		}
 
 	}
+	private void guardarEstado() {
+    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("tablero.dat"))) {
+        out.writeObject(this);
+    } catch (IOException e) {
+        e.printStackTrace();}
+    }
+	private void guardarTop() {
+    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("top.dat"))) {
+        out.writeObject(this.top);
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
 }

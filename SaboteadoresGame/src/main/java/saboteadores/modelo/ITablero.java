@@ -30,7 +30,7 @@ public interface ITablero extends IObservableRemoto {
 	public boolean hayJugadores() throws RemoteException;
 	public void agregarJugador(String nombre) throws RemoteException;
 	public void agregarJugadores(ArrayList<String> jugadoresNuevos) throws RemoteException;
-	public void incializar() throws RemoteException;
+	//public void incializar() throws RemoteException;
 	public void iniciarJuego() throws RemoteException;
 	public Slots_tablero getTableroConSlots() throws RemoteException;
 	public int getCantidadRestanteMazo() throws RemoteException;
@@ -48,5 +48,6 @@ public interface ITablero extends IObservableRemoto {
 	public String getJugadorSiguiente() throws RemoteException;
 	public ArrayList<Jugador> getListaAdversarios(String quien) throws RemoteException;
 	public String getPartidaGanada() throws RemoteException;
+	public Top getTop() throws RemoteException;
 
 }

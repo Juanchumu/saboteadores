@@ -1,9 +1,11 @@
 package saboteadores.modelo.mazo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MazoPepitas {
+public class MazoPepitas implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Integer> pepitas;
 	private ArrayList<Integer> pepitasDeUnaRonda;
 	public MazoPepitas(int cantidadDeJugadores){

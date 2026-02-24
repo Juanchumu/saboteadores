@@ -1,4 +1,5 @@
 package saboteadores.modelo.mazo;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -6,7 +7,8 @@ import saboteadores.modelo.mazo.cartas.Carta_Camino;
 
 //import sab.Carta_Oro;
 
-public class Mazo_oros {
+public class Mazo_oros implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Carta_Camino> mazo_oro;
 	public Mazo_oros(){
 		this.oros();

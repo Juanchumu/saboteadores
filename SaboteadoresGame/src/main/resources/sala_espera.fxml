@@ -11,4 +11,5 @@
     <ListView fx:id="listaFaltan" prefHeight="200" prefWidth="200"/>
 
     <Button text="Estoy listo" onAction="#clickListo"/>
+    <Button text="Mostrar Top" onAction="#mostrarTop"/>
 </VBox>
