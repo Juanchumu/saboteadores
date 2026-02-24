@@ -7,19 +7,12 @@ import javax.swing.JOptionPane;
 import ar.edu.unlu.rmimvc.RMIMVCException;
 import ar.edu.unlu.rmimvc.Util;
 import ar.edu.unlu.rmimvc.cliente.Cliente;
-import javafx.application.Application;
-
-import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.application.Platform;
-
 
 import saboteadores.clienteConsola.ControladorConsola;
 import saboteadores.clienteConsola.VistaConsola;
 import saboteadores.modelo.ITablero;
 
-public class AppClienteConsola extends Application {
+public class AppClienteConsola  {
 	private static VistaConsola vista;
 	private static ControladorConsola controlador;
 
@@ -71,6 +64,7 @@ public class AppClienteConsola extends Application {
 			c.iniciar(controlador); //se supone que con esto el modelo 
 									//y el controlador estan conectados
 			vista.setControlador(controlador);
+			controlador.iniciar();
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
