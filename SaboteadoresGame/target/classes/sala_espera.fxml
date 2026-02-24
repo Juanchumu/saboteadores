@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml">
+    <Label text="Sala de espera"/>
+
+    <Label fx:id="labelEstado"/>
+
+    <ListView fx:id="listaFaltan" prefHeight="200" prefWidth="200"/>
+
+    <Button text="Estoy listo" onAction="#clickListo"/>
+</VBox>
