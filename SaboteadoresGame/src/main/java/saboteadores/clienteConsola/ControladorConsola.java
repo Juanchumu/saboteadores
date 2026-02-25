@@ -80,7 +80,8 @@ public class ControladorConsola implements IControladorRemoto {
 
 				this.juegoEnMarcha = true;
 				this.conectadoAlJuego = true;
-				vista.cambiarAEscenarioJuego();
+				vista.loop();
+				//vista.vistaPorDefecto();
 			}else{
 				try {
 					System.out.println("3");
@@ -151,6 +152,7 @@ public class ControladorConsola implements IControladorRemoto {
 						vista.setJugador(modelo.devolverJugador(this.nombreJugadorDeEsteControlador ));
 						vista.setAdversarios(modelo.getListaAdversarios(this.nombreJugadorDeEsteControlador));
 						this.conectadoAlJuego = true;
+						vista.loop();
 						vista.cambiarAEscenarioJuego();
 					}else{
 						//System.out.println("a6");

@@ -108,8 +108,16 @@ public class VistaConsola {
         System.out.println(historico);
 	}
 
-	//pop up para mostrar estado de la sala 
+	public void loop(){
+		Scanner sc = new Scanner(System.in);
+		while(true){
+			controlador.actualizarDatosVista();
+			vistaPorDefecto();
+			sc.nextLine();
+		}
+	}
 
+	//pop up para mostrar estado de la sala 
 	public void mostrarEstadoSala(EstadoSala estado) {
 			System.out.println("Jugadores listos: "+ estado.listos+" / " + 
 					estado.totalJugadores);

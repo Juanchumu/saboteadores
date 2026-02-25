@@ -65,6 +65,7 @@ public class AppClienteConsola  {
 									//y el controlador estan conectados
 			vista.setControlador(controlador);
 			controlador.iniciar();
+			vista.loop();
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
