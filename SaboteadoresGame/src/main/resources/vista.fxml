@@ -70,20 +70,19 @@
 		<VBox prefHeight="478.0" prefWidth="300.0" spacing="8" >
 			<children>
 				<Label alignment="CENTER" style="&#10;" text="Estas controlando al jugador: " textAlignment="CENTER" wrapText="false">
-					<font><Font size="10.0" fx:id="x612" /></font>
+					<font><Font size="14.0" fx:id="x612" /></font>
 					<textFill><Color red="0.624" green="0.624" blue="0.624" fx:id="x613" /></textFill>
 				</Label>
 				<Label fx:id="labelNombreJugador" alignment="CENTER" style="&#10;" text="Jugador alfa" textAlignment="CENTER" wrapText="false">
 					<font><Font size="10.0" /></font>
-					<textFill><Color red="0.624" green="0.624" blue="0.624" fx:id="x6131" /></textFill>
 				</Label>
 				<Label text="Que tiene el Rol de:" alignment="CENTER" style="&#10;"  textAlignment="CENTER" wrapText="false">
-					<font><Font size="10.0"/></font>
+					<font><Font size="14.0"/></font>
 					<textFill><Color red="0.624" green="0.624" blue="0.624" fx:id="x61311" /></textFill>
 				</Label>
 				<Label fx:id="labelRolJugador"> 
 					<font>
-						<Font size="10.0"  />
+						<Font size="12.0"  />
 					</font>
 </Label>
 				<Label alignment="CENTER" style="&#10;" text="Restricciones:" textAlignment="CENTER" wrapText="false">
@@ -104,7 +103,7 @@
                </textFill>
             </Label>
 			<VBox fx:id="contenedorOrosVistos" />
-				<VBox fx:id="opciones" >
+				<VBox fx:id="opciones" style="-fx-border-color: red; -fx-border-width: 2;" >
 				</VBox>
 			</children>
 		</VBox>

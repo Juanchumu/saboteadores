@@ -60,7 +60,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		jugadoresListos = new ArrayList<>();
 		jugadoresNuevos = new ArrayList<>();
 		//Configuracion de pruebas 
-		this.largoTablero = 2; //MAX 7 MIN 1 
+		this.largoTablero = 7; //MAX 7 MIN 1 
 		//this.descartarMuchasCartas(45); //Descarta 45 cartas  MAX 45 MIN 1
 		this.jugadoresListos.add("Carlos");
 		this.jugadoresListos.add("Juan");

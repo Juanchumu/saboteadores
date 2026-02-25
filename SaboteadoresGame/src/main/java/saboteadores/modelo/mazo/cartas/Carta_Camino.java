@@ -23,10 +23,12 @@ public class Carta_Camino extends CartaJugableEnTablero implements Serializable 
 		this.abajo = true;
 		this.izquierda = true;
 		this.derecha = true;
+
+		//se puede cambiar esto para ver las metas
 		if(oro){
-			this.forma = "O";
+			this.forma = "M";
 		}else{
-			this.forma = "C";
+			this.forma = "M";
 		}
 	}
 	//Constructor para una carta Camino 
