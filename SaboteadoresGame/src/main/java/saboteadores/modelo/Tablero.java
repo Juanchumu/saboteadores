@@ -341,6 +341,8 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 
 
 	private boolean quieroVerOro(Carta carta, int pos, String NombreJugadorJugando ){
+		//System.out.println("El jugador: "+NombreJugadorJugando+" esta viendo la meta"+
+		//		pos);
 		// Se devuelven 2 cartas
 		//if la carta es de ver
 		//devuelve una copia de la carta meta 
@@ -348,18 +350,23 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		//si no es, deberia devolver error, como jugada imposible
 		//
 		//
-		boolean sePudoVerUnaMeta = false; 
+		boolean sePudoVerUnaMeta = false;
+		//System.out.println("1");
 		if(carta instanceof CartaSimple){
+			//System.out.println("2");
 			CartaSimple cartita = (CartaSimple) carta;
 			if ( pos == (largoTablero +1) | 
 					pos == (largoTablero*3 + 5) | 
 					pos == (largoTablero *5 +9) ){ //44 
+				//System.out.println("3");
 				if(cartita.esVista()){
 					for(Jugador j: jugadores){
-						if(j.getNombre() == NombreJugadorJugando){
+						if(j.getNombre().equals(NombreJugadorJugando)){
+							//System.out.println("4");
 
 							//Primer Carta devuelta 
 							j.agregarOrosVistos(this.slots.getSlot(pos).getCartaAlojadaEnSlot() );
+							//System.out.println("5");
 							//HUBO CAMBIOS
 							//Segunda Carta Devuelta
 							/*
@@ -374,14 +381,6 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 			}
 		}
 		return sePudoVerUnaMeta;
-		/*
-		if(fallido){
-			//intento fallido 
-			borrarCartaYDarUnaNueva(carta,NombreJugadorJugando);
-			siguienteTurno();
-			notificarObservadores();
-		}
-		*/
 	}
 
 	private boolean checkLibreDeRestricciones(String NombreJugadorJugando){
@@ -398,7 +397,9 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 
 	public void ponerCartaTablero(int posCarta, int pos, String quien
 			) throws RemoteException {
+		System.out.println("El jugador: " +quien+ " esta jugando una carta en la posicion "+ pos);
 		Carta carta = buscarCarta(posCarta, quien);
+		//System.out.println("Carta"+ posCarta );
 		//si el jugador tiene una restriccion, no deberia poder
 		//realizar la accion de colocar una carta 
 		boolean descarte = true; 
@@ -406,11 +407,11 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 			
 			//Carta de derrumbe
 			if(this.derrumbar(carta, pos, quien)){
-				System.out.println("Se pudo derrumbar");
+				System.out.println("y pudo derrumbar un camino");
 			}
 			//Carta de vista 
 			if(this.quieroVerOro(carta, pos, quien)){
-				System.out.println("Se pudo ver");
+				System.out.println("y pudo ver una meta");
 			}
 
 			if(carta instanceof Carta_Camino){
@@ -418,7 +419,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 				//si se puede poner, se pone
 				if(this.slots.getSlot(pos).alojarCarta(camino) ){
 					//se pudo poner 
-					System.out.println("sepudoponer");
+					System.out.println("y logro colocar un camino");
 					//this.slots.getSlot(pos).alojarCarta(camino);
 					//se chequea si conecta con la meta
 					if(this.slots.getSlot(pos).slotConectadoALaMeta()){
@@ -436,7 +437,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 					}
 					descarte = false;
 				}else{
-					System.out.println(" NO sepudoponer");
+					System.out.println("y no se pudo jugar la carta");
 				}
 			}
 		}
@@ -450,11 +451,11 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 	}
 	private boolean derrumbar(Carta carta, int pos, String quien){
 		boolean seDerrumboElCamino = false;
-		System.out.println("1se ingreso la posicion "+pos+" tanto");
+		//System.out.println("1se ingreso la posicion "+pos+" tanto");
 		if(carta instanceof CartaSimple){
-			System.out.println("2se ingreso la posicion "+pos+" tanto");
+			//System.out.println("2se ingreso la posicion "+pos+" tanto");
 			CartaSimple cartita = (CartaSimple) carta;
-			System.out.println("3se ingreso la posicion "+pos+" tanto");
+			//System.out.println("3se ingreso la posicion "+pos+" tanto");
 
 			if( (pos !=  (largoTablero*2+4)  )&&
 					(pos != (largoTablero+1)   )&&
@@ -479,6 +480,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 	}
 	public void descartarCarta(int posCarta, String quien
 			) throws RemoteException {
+		System.out.println("El jugador :" +quien+ " Descarto una carta.");
 		Carta carta = buscarCarta(posCarta, quien);
 		borrarCartaYDarUnaNueva(carta, quien);
 		siguienteTurno();

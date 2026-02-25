@@ -121,6 +121,7 @@ public class ControladorGUI implements IControladorRemoto {
 		try{
 					//vista.setNombreJugador(this.nombreJugadorDeEsteControlador);
 					//Actualizar Jugador
+					vista.setAdversarios(modelo.getListaAdversarios(this.nombreJugadorDeEsteControlador));
 					vista.jugadorSiguente(modelo.getJugadorSiguiente());
 					vista.actualizarCartasRestantes(modelo.getCantidadRestanteMazo());
 					vista.actualizarTablero(modelo.getTableroConSlots());

@@ -283,20 +283,20 @@ public class VistaConsola {
 		switch(opcion){
 			case 1:
 				System.out.println("Ingresa el nro de carta:");
-				nroCarta = pedirOpcion(1, this.jugador.getManoJugador().size());
+				nroCarta = pedirOpcion(0, this.jugador.getManoJugador().size() -1 );
 				nombreJugadorSeleccionado = pedirTexto("Ingresa el nombre del jugador:");
 				controlador.ponerCartaSobreJugador(nroCarta, nombreJugadorSeleccionado);
 				break;
 			case 2:
 				System.out.println("Ingresa el nro de carta:");
-				nroCarta = pedirOpcion(1, this.jugador.getManoJugador().size());
+				nroCarta = pedirOpcion(0, this.jugador.getManoJugador().size() -1 );
 				System.out.println("Ingresa del slot del tablero");
-				nroSlot = pedirOpcion(1, 50);
+				nroSlot = (pedirOpcion(1, 50) + 0  ) ;
 				controlador.ponerCartaSobreTablero(nroCarta, nroSlot);
 				break;
 			case 3:
 				System.out.println("Ingresa el nro de la carta a Descartar");
-				nroCarta = pedirOpcion(1, this.jugador.getManoJugador().size());
+				nroCarta = pedirOpcion(0, this.jugador.getManoJugador().size() -1);
 				controlador.descartarCarta(nroCarta);
 				break;
 

@@ -487,7 +487,7 @@ public class VistaGUI {
 		jugarEnElTablero = new Button("Jugar en el tablero");
 		jugarEnElTablero.setOnAction(e ->{
 			controlador.ponerCartaSobreTablero( 
-					(int) tgMano.getSelectedToggle().getUserData() ,  //es la posicion de la carta
+					(int) tgMano.getSelectedToggle().getUserData() +0 ,  //es la posicion de la carta
 			 slotSeleccionado );
 		});
 		opciones.getChildren().add(jugarEnElTablero);

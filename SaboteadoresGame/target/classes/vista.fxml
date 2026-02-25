@@ -69,7 +69,7 @@
 		</VBox>
 		<VBox prefHeight="478.0" prefWidth="248.0">
 			<children>
-				<Label alignment="CENTER" style="&#10;" text="Controlando a: " textAlignment="CENTER" wrapText="false">
+				<Label alignment="CENTER" style="&#10;" text="Estas controlando al jugador: " textAlignment="CENTER" wrapText="false">
 					<font><Font size="18.0" fx:id="x612" /></font>
 					<textFill><Color red="0.624" green="0.624" blue="0.624" fx:id="x613" /></textFill>
 				</Label>

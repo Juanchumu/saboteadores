@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="478.0" prefWidth="826.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<HBox prefHeight="478.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<VBox prefHeight="478.0" prefWidth="444.0">
 			<children>
@@ -67,30 +67,35 @@
 				<VBox fx:id="contenedorJugadores" spacing="6" fillWidth="true"/>
 			</children>
 		</VBox>
-		<VBox prefHeight="478.0" prefWidth="248.0">
+		<VBox prefHeight="478.0" prefWidth="300.0" spacing="8" >
 			<children>
-				<Label alignment="CENTER" style="&#10;" text="Controlando a: " textAlignment="CENTER" wrapText="false">
-					<font><Font size="18.0" fx:id="x612" /></font>
+				<Label alignment="CENTER" style="&#10;" text="Estas controlando al jugador: " textAlignment="CENTER" wrapText="false">
+					<font><Font size="10.0" fx:id="x612" /></font>
 					<textFill><Color red="0.624" green="0.624" blue="0.624" fx:id="x613" /></textFill>
 				</Label>
-				<Label fx:id="labelNombreJugador" alignment="CENTER" layoutX="10.0" layoutY="10.0" style="&#10;" text="Jugador alfa" textAlignment="CENTER" wrapText="false">
-					<font><Font size="18.0" fx:id="x6121" /></font>
+				<Label fx:id="labelNombreJugador" alignment="CENTER" style="&#10;" text="Jugador alfa" textAlignment="CENTER" wrapText="false">
+					<font><Font size="10.0" /></font>
 					<textFill><Color red="0.624" green="0.624" blue="0.624" fx:id="x6131" /></textFill>
 				</Label>
-				<Label fx:id="labelRolJugador" alignment="CENTER" layoutX="10.0" layoutY="35.0" style="&#10;" text="Rol: " textAlignment="CENTER" wrapText="false">
-					<font><Font size="18.0" fx:id="x61211" /></font>
+				<Label text="Que tiene el Rol de:" alignment="CENTER" style="&#10;"  textAlignment="CENTER" wrapText="false">
+					<font><Font size="10.0"/></font>
 					<textFill><Color red="0.624" green="0.624" blue="0.624" fx:id="x61311" /></textFill>
 				</Label>
+				<Label fx:id="labelRolJugador"> 
+					<font>
+						<Font size="10.0"  />
+					</font>
+</Label>
 				<Label alignment="CENTER" style="&#10;" text="Restricciones:" textAlignment="CENTER" wrapText="false">
 					<font>
-						<Font size="18.0" fx:id="x612111" />
+						<Font size="18.0"  />
 					</font>
 					<textFill>
 						<Color red="0.624" green="0.624" blue="0.624" fx:id="x613111" />
 					</textFill>
 				</Label>
-				<VBox fx:id="contenedorRestricciones" prefHeight="200.0" prefWidth="100.0" />
-            <Label alignment="CENTER" layoutX="10.0" layoutY="85.0" style="&#10;" text="Oros Vistos:" textAlignment="CENTER" wrapText="false">
+				<VBox fx:id="contenedorRestricciones"  />
+            <Label alignment="CENTER"  style="&#10;" text="Oros Vistos:" textAlignment="CENTER" wrapText="false">
                <font>
                   <Font size="18.0" fx:id="x6121111" />
                </font>
@@ -98,8 +103,8 @@
                   <Color red="0.624" green="0.624" blue="0.624" fx:id="x6131111" />
                </textFill>
             </Label>
-			<VBox fx:id="contenedorOrosVistos" layoutX="10.0" layoutY="110.0" prefHeight="200.0" prefWidth="100.0" />
-				<VBox fx:id="opciones" prefHeight="200.0" prefWidth="194.0">
+			<VBox fx:id="contenedorOrosVistos" />
+				<VBox fx:id="opciones" >
 				</VBox>
 			</children>
 		</VBox>
