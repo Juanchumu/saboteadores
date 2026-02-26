@@ -100,33 +100,43 @@ class Mazo_oros {
 }
 
 class Carta {
-  - CartaTipo tipo
-  + getTipo(): CartaTipo
+  - {static} {readOnly} serialVersionUID : long
 }
 
 class CartaReparacion {
-  - CartaAccionTipo reparacion1
-  - CartaAccionTipo reparacion2
-  + getReparacion1(): CartaAccionTipo
-  + getReparacion2(): CartaAccionTipo
+  - {static} {readOnly} serialVersionUID : long
+  - reparacion1 : CartaAccionTipo
+  - reparacion2 : CartaAccionTipo
+  + getReparacion1() : CartaAccionTipo
+  + getReparacion2() : CartaAccionTipo
 }
 
 class CartaSabotaje {
-  - CartaAccionTipo sabotaje
-  + getAccion(): CartaAccionTipo
+  - {static} {readOnly} serialVersionUID : long
+  - sabotaje : CartaAccionTipo
+  + getAccion() : CartaAccionTipo
 }
 
 class Carta_Camino {
-  - String forma
-  - boolean arriba
-  - boolean abajo
-  - boolean izquierda
-  - boolean derecha
-  + getArriba(): boolean
-  + getAbajo(): boolean
-  + getIzquierda(): boolean
-  + getDerecha(): boolean
-  + getForma(): String
+  - {static} serialVersionUID : long
+  - callejon : boolean
+  - forma : String
+  - arriba : boolean
+  - abajo : boolean
+  - izquierda : boolean
+  - derecha : boolean 
+  - meta : boolean
+  - oro : oro
+  + Carta_Camino(meta : boolean, oro : boolean)
+  + Carta_Camino(callejon : boolean,ar : boolean,ab : boolean,iz : boolean,de : boolean, f : String)
+  + getArriba() : boolean
+  + getAbajo() : boolean
+  + getIzquierda() : boolean
+  + getDerecha() : boolean
+  + getForma() : String
+  + esUnCallejon() : boolean
+  + esMeta() : boolean
+  + getOro() : boolean
 }
 
 class Carta_Oro {

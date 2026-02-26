@@ -4,7 +4,7 @@ import saboteadores.modelo.enums.CartaAccionTipo;
 
 import java.io.Serializable;
 
-public class CartaSabotaje extends CartaJugableEnJugadores implements Serializable {
+public class CartaSabotaje extends Carta implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private CartaAccionTipo sabotaje;
 	public CartaSabotaje(CartaAccionTipo sabotaje){

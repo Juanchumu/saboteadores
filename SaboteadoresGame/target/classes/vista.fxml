@@ -103,7 +103,7 @@
                </textFill>
             </Label>
 			<VBox fx:id="contenedorOrosVistos" />
-				<VBox fx:id="opciones" >
+				<VBox fx:id="opciones" style="-fx-border-color: red; -fx-border-width: 2;" >
 				</VBox>
 			</children>
 		</VBox>

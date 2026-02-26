@@ -1,0 +1,380 @@
+@startuml
+hide empty members
+
+enum CartaAccionTipo {
+  PICO
+  ANTORCHA
+  MINECART
+  VACIO
+}
+
+enum Rol {
+  IMPOSTOR
+  ENANO
+}
+
+class Servidor{
+  .. Constructor ..
+  + Servidor(String : ip, int : puerto)
+  .. Metodos ..
+  + void : iniciar(Object : objeto)
+}
+
+class ServidorLocal{
+  Atributos
+  - {static} String : ARCHIVO_TABLERO
+  - {static} String : ARCHIVO_TOP
+  .. Main ..
+  + {static} void : main(String[] : args)
+  .. Metodos ..
+  + {static} void : guardarTablero()
+  + {static} void : cargarTablero()
+  + {static} void : guardarTop()
+  + {static} void : cargarTop()
+}
+
+interface ITablero{
+  + int : getLargo()
+  + boolean : esJugable()
+  + void : agregarJugador(String : nombre)
+  + void : agregarJugadores(Arraylist<String> : jugadoresNuevos)
+  + void : iniciarJuego()
+  + Slots_tablero : getTableroConSlots()
+  + int : getCantidadRestanteMazo()
+  + void ponerCartaSobreJugador(int : posCarta, String : jugadorObjetivo, String quien)
+  + void : ponerCartaSobreTablero(int : posCarta, String : quien)
+  + void : descartarCarta(int : posCarta, String : quien)
+  + EstadoSala marcarListo(String : nombre)
+  + void : intentarArrancarElJuego()
+  + boolean : estoyLogueado(String nombre)
+  + Jugador : devolverJugador(String nombre)
+  + String : getJugadorSiguiente()
+  + Arraylist<Jugador> : getListaAdversarios(String quien)
+  + String : getPartidaGanada()
+  + Top : getTop()
+}
+
+class Tablero {
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - boolean : jugable
+  - Mazo : mazo
+  - Slots_tablero : slots
+  - ArrayList<Jugador> : jugadores
+  - Jugador : jugadorActual
+  - int : turnoActual
+  - ArrayList<String> : jugadoresNuevos
+  - ArrayList<String> : jugadoresListos
+  - MazoPepitas : mazoPepitasMineros
+  - String : partidaGanada
+  - int : largoTablero
+  - Top : top
+  
+  .. Constructor ..
+  + Tablero(Top : top)
+  .. Metodos Privados..
+  - void : reiniciarElJuego()
+  - void : descartarMuchasCartas(int : cantidad)
+  - void : inicializarJugadores(ArrayList<String> : jug): void
+  - void : siguienteTurno()
+  - void : ganaronLosImpostores()
+  - void : ganarPartida()
+  - Carta : buscarCarta(int posCarta, String jugador)
+  - boolean : quieroVerOro(Carta : carta, int : pos, String : NombreJugadorJugando)
+  - boolean : checkLibreDeRestricciones(String : NombreJugadorJugando)
+  - boolean : derrumbar(Carta : carta, int : pos, String : quien)
+  - void : borrarCartaYDarUnaNueva(Carta carta, String jugador)
+  - void : guardarEstado()
+  - void : guardarTop()
+  
+  .. Metodos Publicos ..
+  + incializar(): void
+}
+
+
+class Jugador {
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - String : nombre
+  - ArrayList<Carta> : mano
+  - ArrayList<CartaSabotaje> : restricciones
+  - ArrayList<Carta_Camino> : orosVistos
+  - Rol : rol
+  .. Constructor ..
+  + Jugador(String : n, ArrayList<Carta> : m, Rol : r) 
+  .. Getters ..
+  + ArrayList<Carta> : getManoJugador() 
+  + ArrayList<Carta_Oro> : getOrosJugador() 
+  + ArrayList<CartaSabotaje> : getRestriccionesJugador()
+  + String : getNombre()
+  + Rol : getRol()
+  + int : getPuntos()
+  + boolean : tieneRestricciones()
+  .. Setters ..
+  + boolean : agregarRestriccion(Carta) 
+  + boolean : quitarRestriccion(Carta)
+  + boolean : tieneRestricciones()
+  + void : agregarOrosVistos(Carta)
+  + void : sumarPuntosJugador(int : puntos)
+}
+
+
+class Mazo {
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - ArrayList<Carta> : mazo
+  .. Constructor ..
+  + Mazo()
+  .. Metodos Privados ..
+  - void : addCallejonesYCaminos()
+  - void : addAcciones()
+  .. Getters ..
+  + ArrayList<Carta> : getMazo()
+  + boolean : hayCartasEnElMazo() 
+  + Carta : getCarta()
+  + int : getCantidadRestanteMazo()
+  .. Publicos - Otros ..
+  + void : eliminarCarta()
+}
+
+class Mazo_oros { 
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - ArrayList<Carta_Camino> : mazo_oro
+  .. Constructor ..
+  + Mazo_oros()
+  .. Metodos Privados ..
+  - void : oros()
+  .. Getters ..
+  + ArrayList<Carta_Camino> : get_mazo_oros() 
+}
+
+class MazoPepitas { 
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - ArrayList<Integer> : pepitas
+  - ArrayList<Integer> : pepitasDeUnaRonda
+  .. Constructor ..
+  + MazoPepitas(int : cantidadDeJugadores)
+  .. Metodos Privados ..
+  - void : generarPepitas()
+  - void : generarPepitasRonda()
+  - int : getPepita() 
+  .. Getters ..
+  + int : getMaxPepita() 
+  + int : getSobras() 
+}
+
+class Carta {
+  Atributos
+  --
+  - {static} long : serialVersionUID  
+}
+
+class CartaReparacion {
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - CartaAccionTipo : reparacion1 
+  - CartaAccionTipo : reparacion2 
+  .. Constructor .. 
+  + CartaReparacion(CartaAccionTipo : re1, CartaAccionTipo : re2)
+  .. Getters ..
+  + CartaAccionTipo : getReparacion1() 
+  + CartaAccionTipo : getReparacion2()  
+}
+
+class CartaSabotaje {
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - CartaAccionTipo : sabotaje
+  .. Constructor ..
+  + CartaSabotaje(CartaAccionTipo : sabotaje)
+  .. Getters ..
+  + CartaAccionTipo : getAccion() 
+}
+class CartaSimple {
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - boolean : derrumbe
+  - boolean : vista
+  .. Constructor ..
+  + CartaSimple(boolean : vista)
+  .. Getters ..
+  + boolean : esVista()
+  + boolean : esDerrumbe() 
+}
+
+class Carta_Camino {
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - boolean : callejon
+  - Strig : forma
+  - boolean : arriba
+  - boolean : abajo
+  - boolean : izquierda
+  - boolean : derecha 
+  - boolean : meta
+  - boolean : oro
+  .. Constructor ..
+  + Carta_Camino(boolean : meta, boolean : oro)
+  + Carta_Camino(boolean : callejon,boolean : ar,boolean : ab,boolean : iz,boolean : de,String : f)
+  .. Getters ..
+  + boolean : getArriba()
+  + boolean : getAbajo()
+  + boolean : getIzquierda()
+  + boolean : getDerecha()
+  + boolean : getForma()
+  + boolean : esUnCallejon()
+  + boolean : esMeta()
+  + boolean : getOro()
+}
+
+
+class Slot {
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - Carta_Camino : carta_alojada
+  - Slot : arriba
+  - Slot : abajo
+  - Slot : izquierda
+  - Slot : derecha
+  - String : forma
+  .. Constructor ..
+  + Slot()
+  + Slot(Slot : ar, Slot : ab, Slot : iz, Slot : de)
+  + Slot(Carta_Camino : carta)
+  + Slot(Carta_Camino : carta, Slot : ar, Slot : ab, Slot : iz, Slot : de)
+  .. Setters ..
+  + void : Slot_Set_Arriba(Slot : slot)
+  + void : Slot_Set_Abajo(Slot : slot)
+  + void : Slot_Set_Izquierda(Slot : slot)
+  + void : Slot_Set_Derecha(Slot : slot)
+  + void : SlotSetForma(String formaNueva)
+  
+  .. Getters ..
+  + boolean : taOcupao() 
+  + Carta_Camino : getCartaAlojadaEnSlot(): 
+  + boolean : slotConectadoALaMeta()
+  + boolean : alojarCarta(Carta cartaRecibida)
+  + eliminarCarta(): void
+  
+  .. Metodos Privados ..
+  - void : checkConexionMeta(Slot : slot)
+}
+
+class Slots_tablero {
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - ArrayList<Slot> : slots
+  - ArrayList<Carta_Camino> mazo_oro
+  - int largoTablero
+  .. Constructor ..
+  + Slots_tablero(int : largo)
+  .. Metodos Privados ..
+  - void : crear_slots()
+  .. Getters ..
+  + Slot : getSlot(int)
+}
+
+class JugadorHistorico{
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - String : nombre
+  - int : puntos
+  .. Constructor ..
+  + JugadorHistorico()
+  .. Setters ..
+  + void : sumarPuntos(int : cantidad)
+  + void : setNombre(String nombre)
+  .. Getters ..
+  + String : getNombre()
+  + int : getPuntos()
+}
+
+class Top{
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - ArrayList<JugadorHistorico> top
+  .. Constructor ..
+  + Top()
+  .. Setters ..
+  + void : agregarPuntosHistorico(String : name, int : cantidad)
+  .. Gettets ..
+  + ArrayList<JugadorHistorico> : getHistorico()
+}
+class EstadoSala{
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - int totalJugadores
+  - int listos
+  - List<String> faltan
+  .. Constructor ..
+  + EstadoSala(int : total, int : listos, List<String> : faltan)
+
+}
+
+
+ServidorLocal --> Tablero : instancia
+ServidorLocal --> Top : instancia
+ServidorLocal --> Servidor : instancia 
+
+Servidor --> Tablero : tiene
+
+Tablero ..|> ITablero : implementa
+Tablero --|> ObservableRemoto : extiende
+
+Carta <|-- CartaReparacion
+Carta <|-- CartaSabotaje
+Carta <|-- Carta_Camino
+Carta <|-- CartaSimple 
+
+
+Jugador --> Rol : utiliza
+Jugador "1"-->"0..*" CartaSabotaje : utiliza
+Jugador "1"-->"0..*" CartaReparacion : utiliza
+Jugador "1"-->"0..*" CartaSabotaje : utiliza
+Jugador "1"-->"0..*" Carta_Camino : utiliza
+Jugador "1"-->"0..*" Carta : utiliza
+
+Mazo "1" --> "0..*"  Carta : utiliza
+
+
+CartaReparacion --> CartaAccionTipo : utiliza
+CartaSabotaje --> CartaAccionTipo : utiliza
+
+Slots_tablero "1" --> "*" Slot : aloja
+Slots_tablero --> Mazo_oros : utiliza
+
+Slot "1" --> "1" Carta_Camino : aloja
+Slot --> CartaSimple : utiliza
+
+Tablero "1"-->"1" Mazo : tiene 
+Tablero "1"--> "*" Slots_tablero : tiene
+Tablero "1"-->"*" Jugador : tiene
+Tablero --> Carta_Camino : conoce
+Tablero --> Carta : conoce
+Tablero --> CartaSabotaje : conoce
+Tablero --> CartaReparacion : conoce
+Tablero --> EstadoSala : utiliza
+Tablero "1"-->"1" Top : tiene
+Tablero --> MazoPepitas : tiene
+
+ITablero --> Tablero : implementa
+
+Top "1"-->"*" JugadorHistorico : tiene
+
+@enduml

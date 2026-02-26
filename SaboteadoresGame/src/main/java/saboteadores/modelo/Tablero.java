@@ -39,7 +39,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 	private int turnoActual = 0;
 	private ArrayList<String> jugadoresNuevos;
 	private ArrayList<String> jugadoresListos;
-
+	private String partidaGanada = "";
 	//Cartas de oros para los mineros 
 	private MazoPepitas mazoPepitasMineros;
 
@@ -278,7 +278,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		this.guardarTop();
 		this.reiniciarElJuego();
 	}
-	private String partidaGanada = "";
+	
 	public String getPartidaGanada() throws RemoteException {
 		return this.partidaGanada;
 	}

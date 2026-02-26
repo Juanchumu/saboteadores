@@ -131,6 +131,8 @@ public class Mazo implements Serializable {
 	public int getCantidadRestanteMazo(){
 		return this.mazo.size();
 	}
+	// metodo unicamente con fines de pruebas
+	// es para poder probar que el juego se quede sin cartas
 	public void eliminarCarta(){
 		this.mazo.remove(this.mazo.size() - 1);  // elimina el último 
 	}

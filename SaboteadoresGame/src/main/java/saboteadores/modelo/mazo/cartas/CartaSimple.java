@@ -4,7 +4,7 @@ package saboteadores.modelo.mazo.cartas;
 import java.io.Serializable;
 
 
-public class CartaSimple extends CartaJugableEnTablero 
+public class CartaSimple extends Carta 
 	implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private boolean derrumbe;

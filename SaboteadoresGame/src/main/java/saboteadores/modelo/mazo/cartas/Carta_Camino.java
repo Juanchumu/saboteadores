@@ -3,7 +3,7 @@ package saboteadores.modelo.mazo.cartas;
 
 import java.io.Serializable;
 
-public class Carta_Camino extends CartaJugableEnTablero implements Serializable {
+public class Carta_Camino extends Carta implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private boolean callejon;
 	private String forma;
