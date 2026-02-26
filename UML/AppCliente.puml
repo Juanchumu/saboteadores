@@ -361,7 +361,7 @@ AppCliente --> Cliente : instancia
 
 Cliente --> ControladorGUI : tiene
 
-ControladorGUI ..> IControladorRemoto : implementa
+ControladorGUI ..|> IControladorRemoto : implementa
 ControladorGUI --> IObservableRemoto: conoce
 ControladorGUI --> VistaGUI : contiene
 ControladorGUI --> ITablero : contiene

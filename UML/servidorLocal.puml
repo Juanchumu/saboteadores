@@ -334,8 +334,7 @@ ServidorLocal --> Servidor : instancia
 
 Servidor --> Tablero : tiene
 
-Tablero ..|> ITablero : implementa
-Tablero --|> ObservableRemoto : extiende
+
 
 Carta <|-- CartaReparacion
 Carta <|-- CartaSabotaje
@@ -378,7 +377,8 @@ Tablero ..> EstadoSala : utiliza
 Tablero "1"-->"1" Top : tiene
 Tablero --> MazoPepitas : tiene
 
-ITablero ..> Tablero : implementa
+Tablero ..|> ITablero : implementa
+Tablero --|> ObservableRemoto : extiende
 
 Top "1"-->"*" JugadorHistorico : tiene
 
