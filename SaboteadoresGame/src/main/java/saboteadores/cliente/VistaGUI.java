@@ -12,6 +12,7 @@ import saboteadores.modelo.Jugador;
 import saboteadores.modelo.JugadorHistorico;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javafx.application.Platform;
@@ -219,7 +220,7 @@ public class VistaGUI {
 
 	}
 
-	public void actualizarSala(int listos, int totalJugadores, java.util.List<String> faltan) {
+	public void actualizarSala(int listos, int totalJugadores, List<String> faltan) {
 		Platform.runLater(() -> {
 			if (labelEstado != null) {
 				labelEstado.setText("Listos: " + listos + " / " + totalJugadores);

@@ -13,25 +13,124 @@ enum Rol {
   ENANO
 }
 
-class Servidor{
+class Cliente{
   .. Constructor ..
-  + Servidor(String : ip, int : puerto)
+  + Cliente(String : ip, int : puerto)
   .. Metodos ..
   + void : iniciar(Object : objeto)
 }
 
-class ServidorLocal{
+class AppCliente{
   Atributos
-  - {static} String : ARCHIVO_TABLERO
-  - {static} String : ARCHIVO_TOP
+  --
+  - {static} VistaGUI : vista
+  - {static} ControladorGUI : controlador
   .. Main ..
   + {static} void : main(String[] : args)
   .. Metodos ..
-  + {static} void : guardarTablero()
-  + {static} void : cargarTablero()
-  + {static} void : guardarTop()
-  + {static} void : cargarTop()
+  + void : start(Stage : stage)
 }
+
+class ControladorGUI{
+  Atributos
+  --
+  - ITablero : modelo
+  - VistaGUI : vista
+  - String : nombreJugadorDeEsteControlador
+  - boolean : juegoEnMarcha
+  .. Constructor ..
+  + ControladorGUI(VistaGUI : vista)
+  .. Metodos ..
+  + void : iniciar
+  + void : jugadorListo
+  + void : ponerCartaSobreTablero(int : posCarta, int : pos)
+  + void : ponerCartaSobreJugador(int : posCarta, String : nombre)
+  + void : actualizarDatosVista()
+  + void : actualizar(IObservableRemoto : instanciaDeModelo, Object : cambio)
+  + <T extends IObservableRemoto>void : setModeloRemoto(T : modeloRemoto)
+
+}
+
+class VistaGUI{
+  Atributos
+  --
+  - ArrayList<String> : nombres
+  - final int : MAX
+  - int : cartasRestantesMazo
+  - Jugador : jugador
+  - String : jugadorActual
+  - ArrayList<Jugador> : adversarios
+  - Slots_tablero : tableroJuego
+  - int : largoTablero
+  - ControladorGUI : controlador
+  - String : nombreJugador
+  - Top : top
+  - int : slotSeleccionado
+  Atributos FXML
+  --
+  - Label : labelEstado
+  - Label : labelNombreJugador
+  - Label : labelRolJugador
+  - Label : turnoActual
+  - Label : labelCartasRestantes
+  - Label : labelOrosVistos
+  - ListView<String> : listaFaltan
+  - Button : botonListo
+  - GridPane : botonesTablero
+  - ScrollPane : scrollTablero
+  - Label : labelManoTitulo
+  - VBox : contenedorRestricciones
+  - VBox : contenedorMano
+  - ToggleGroup : tgMano
+  - VBox : contenedorJugadores
+  - ToggleGroup : tgAdversarios
+  - VBox : contenedorOrosVistos
+  - VBox : opciones
+  - Button : jugarEnUnJugador
+  - Button : jugarEnElTablero
+  - Button : descartarLaCarta
+  .. Constructor ..
+  + VistaGUI()
+  .. Setters ..
+  + void : setControlador(ControladorGUI : controlador)
+  + void : setLargo(int : largo)
+  + void : setNombreJugador(String nombre)
+  + void : setTop(Top : top)
+  + void : setJugador(Jugador : j)
+  + void : setAdversarios(ArrayList<Jugador> : adversarios)
+  + void : actualizarSala(int : listos, int : totalJugadores, List<String> : faltan)
+  + void : actualizarTablero(Slots_tablero : tablero)
+  + void : actualizarCartasRestantes(int : cantidad)
+  + void : jugadorSiguiente(String : j)
+  .. Getters ..
+  + String : getNombre()
+  .. Metodos FXML..
+  + void : initialize()
+  + void : clickListo()
+  + void : mostrarError(String : mensaje)
+  + void : mostrarTop()
+  .. Otros ..
+  + boolean : confirmarListo()
+  + void : mostrarEstadoSala(EstadoSala : estado)
+  + void : mostrarTodosListos()
+  + void : cambiarAEscenarioJuego()
+  + void : iniciarJuego(int : largo)
+  + void : vistaPorDefecto()
+  + void : verTablero()
+  + void : opcionesBotones()
+  + void : mostrarFinDeJuego()
+  .. Metodos Privados ..
+  - void : deshabilitarTodos()
+  - void : verJugadorActual()
+  - void : verCartasJugador()
+  - void : verOtrosJugadores()
+  - void : verOrosJugador()
+  - void : verRestriccionesJugador()
+  - void : verCantidadDeCartasRestantes()
+  - String : cartaAString(Carta : c)
+ 
+}
+
 
 interface ITablero{
   + int : getLargo()
@@ -52,44 +151,6 @@ interface ITablero{
   + Arraylist<Jugador> : getListaAdversarios(String quien)
   + String : getPartidaGanada()
   + Top : getTop()
-}
-
-class Tablero {
-  Atributos
-  --
-  - {static} long : serialVersionUID
-  - boolean : jugable
-  - Mazo : mazo
-  - Slots_tablero : slots
-  - ArrayList<Jugador> : jugadores
-  - Jugador : jugadorActual
-  - int : turnoActual
-  - ArrayList<String> : jugadoresNuevos
-  - ArrayList<String> : jugadoresListos
-  - MazoPepitas : mazoPepitasMineros
-  - String : partidaGanada
-  - int : largoTablero
-  - Top : top
-  
-  .. Constructor ..
-  + Tablero(Top : top)
-  .. Metodos Privados..
-  - void : reiniciarElJuego()
-  - void : descartarMuchasCartas(int : cantidad)
-  - void : inicializarJugadores(ArrayList<String> : jug): void
-  - void : siguienteTurno()
-  - void : ganaronLosImpostores()
-  - void : ganarPartida()
-  - Carta : buscarCarta(int posCarta, String jugador)
-  - boolean : quieroVerOro(Carta : carta, int : pos, String : NombreJugadorJugando)
-  - boolean : checkLibreDeRestricciones(String : NombreJugadorJugando)
-  - boolean : derrumbar(Carta : carta, int : pos, String : quien)
-  - void : borrarCartaYDarUnaNueva(Carta carta, String jugador)
-  - void : guardarEstado()
-  - void : guardarTop()
-  
-  .. Metodos Publicos ..
-  + incializar(): void
 }
 
 
@@ -120,55 +181,6 @@ class Jugador {
   + void : sumarPuntosJugador(int : puntos)
 }
 
-
-class Mazo {
-  Atributos
-  --
-  - {static} long : serialVersionUID
-  - ArrayList<Carta> : mazo
-  .. Constructor ..
-  + Mazo()
-  .. Metodos Privados ..
-  - void : addCallejonesYCaminos()
-  - void : addAcciones()
-  .. Getters ..
-  + ArrayList<Carta> : getMazo()
-  + boolean : hayCartasEnElMazo() 
-  + Carta : getCarta()
-  + int : getCantidadRestanteMazo()
-  .. Publicos - Otros ..
-  + void : eliminarCarta()
-}
-
-class Mazo_oros { 
-  Atributos
-  --
-  - {static} long : serialVersionUID
-  - ArrayList<Carta_Camino> : mazo_oro
-  .. Constructor ..
-  + Mazo_oros()
-  .. Metodos Privados ..
-  - void : oros()
-  .. Getters ..
-  + ArrayList<Carta_Camino> : get_mazo_oros() 
-}
-
-class MazoPepitas { 
-  Atributos
-  --
-  - {static} long : serialVersionUID
-  - ArrayList<Integer> : pepitas
-  - ArrayList<Integer> : pepitasDeUnaRonda
-  .. Constructor ..
-  + MazoPepitas(int : cantidadDeJugadores)
-  .. Metodos Privados ..
-  - void : generarPepitas()
-  - void : generarPepitasRonda()
-  - int : getPepita() 
-  .. Getters ..
-  + int : getMaxPepita() 
-  + int : getSobras() 
-}
 
 class Carta {
   Atributos
@@ -327,15 +339,46 @@ class EstadoSala{
 
 }
 
+interface IControladorRemoto{
+}
 
-ServidorLocal --> Tablero : instancia
-ServidorLocal --> Top : instancia
-ServidorLocal --> Servidor : instancia 
+class Mazo_oros { 
+  Atributos
+  --
+  - {static} long : serialVersionUID
+  - ArrayList<Carta_Camino> : mazo_oro
+  .. Constructor ..
+  + Mazo_oros()
+  .. Metodos Privados ..
+  - void : oros()
+  .. Getters ..
+  + ArrayList<Carta_Camino> : get_mazo_oros() 
+}
 
-Servidor --> Tablero : tiene
+AppCliente --> VistaGUI : instancia
+AppCliente --> ControladorGUI : instancia
+AppCliente --> Cliente : instancia 
 
-Tablero ..|> ITablero : implementa
-Tablero --|> ObservableRemoto : extiende
+Cliente --> ControladorGUI : tiene
+
+ControladorGUI ..> IControladorRemoto : implementa
+ControladorGUI --> IObservableRemoto: conoce
+ControladorGUI --> VistaGUI : contiene
+ControladorGUI --> ITablero : contiene
+
+VistaGUI --> ControladorGUI : tiene
+VistaGUI --> Jugador : contiene
+VistaGUI --> Slots_tablero : tiene
+VistaGUI --> Top : tiene
+VistaGUI ..> CartaSabotaje : utiliza
+VistaGUI ..> CartaReparacion : utiliza
+VistaGUI ..> CartaSabotaje : utiliza
+VistaGUI ..> Carta_Camino : utiliza
+VistaGUI ..> Carta : utiliza
+VistaGUI ..> EstadoSala : utiliza
+
+
+Mazo_oros --> Carta_Camino : tiene
 
 Carta <|-- CartaReparacion
 Carta <|-- CartaSabotaje
@@ -350,9 +393,6 @@ Jugador "1"-->"0..*" CartaSabotaje : utiliza
 Jugador "1"-->"0..*" Carta_Camino : utiliza
 Jugador "1"-->"0..*" Carta : utiliza
 
-Mazo "1" --> "0..*"  Carta : utiliza
-Mazo_oros --> Carta_Camino : tiene
-
 CartaReparacion ..> CartaAccionTipo : utiliza
 CartaSabotaje ..> CartaAccionTipo : utiliza
 
@@ -362,24 +402,14 @@ Slots_tablero --> Mazo_oros : utiliza
 Slot "1" --> "1" Carta_Camino : aloja
 Slot ..> CartaSimple : utiliza
 
+
+Top "1"-->"*" JugadorHistorico : tiene
+
 ITablero ..> Slots_tablero : dependencia
 ITablero ..> EstadoSala
 ITablero ..> Jugador
 ITablero ..> Top
 
-Tablero "1"-->"1" Mazo : tiene 
-Tablero "1"--> "*" Slots_tablero : tiene
-Tablero "1"-->"*" Jugador : tiene
-Tablero ..> Carta_Camino : conoce
-Tablero ..> Carta : conoce
-Tablero ..> CartaSabotaje : conoce
-Tablero ..> CartaReparacion : conoce
-Tablero ..> EstadoSala : utiliza
-Tablero "1"-->"1" Top : tiene
-Tablero --> MazoPepitas : tiene
 
-ITablero ..> Tablero : implementa
-
-Top "1"-->"*" JugadorHistorico : tiene
 
 @enduml
