@@ -248,6 +248,8 @@ class Carta_Camino {
   + boolean : esUnCallejon()
   + boolean : esMeta()
   + boolean : getOro()
+  .. Setters ..
+  + void : setForma()
 }
 
 

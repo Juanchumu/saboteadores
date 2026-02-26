@@ -62,6 +62,9 @@ public class Carta_Camino extends Carta implements Serializable {
 	public String getForma(){
 		return this.forma;
 	}
+	public void setForma(String forma){
+		this.forma = forma;
+	}
 	public boolean esUnCallejon(){
 		return this.callejon;
 	}

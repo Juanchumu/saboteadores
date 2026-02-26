@@ -66,10 +66,11 @@ public class Mazo implements Serializable {
 		}
 
 		//segundo nivel 
+		//Callejon arriba abajo , izquierda derecha
 		mazo.add(new Carta_Camino(true ,true,true,false,false,"│"));		
 		mazo.add(new Carta_Camino(true,false,false,true,true,"─"));		
-		mazo.add(new Carta_Camino(true,false,true,false,true,"└"));		
-		mazo.add(new Carta_Camino(true,false,true,true,false,"┘"));		
+		mazo.add(new Carta_Camino(true,true,false,false,true,"└"));		
+		mazo.add(new Carta_Camino(true,true,false,true,false,"┘"));		
 
 		//tercer nivel 
 		mazo.add(new Carta_Camino(true,true,true,false,true,"├"));

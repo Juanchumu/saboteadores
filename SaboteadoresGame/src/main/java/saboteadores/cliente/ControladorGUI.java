@@ -84,7 +84,7 @@ public class ControladorGUI implements IControladorRemoto {
 					Platform.runLater(() -> {
 					vista.actualizarSala(estado.listos, estado.totalJugadores, estado.faltan);
 					if (estado.faltan.isEmpty()) {
-						vista.mostrarTodosListos();
+						//vista.mostrarTodosListos();
 						//vista.cambiarAEscenarioJuego();
 						// No se puede arrancar el juego desde aca, ya
 						// que todos tendrian que arrancarlo 

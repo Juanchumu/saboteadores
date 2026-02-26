@@ -62,13 +62,14 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		//Configuracion de pruebas 
 		this.largoTablero = 7; //MAX 7 MIN 1 
 		//this.descartarMuchasCartas(45); //Descarta 45 cartas  MAX 45 MIN 1
+		/*
 		this.jugadoresListos.add("Carlos");
 		this.jugadoresListos.add("Juan");
 		this.jugadoresListos.add("Thiago");
 		this.jugadoresNuevos.add("Carlos");
 		this.jugadoresNuevos.add("Juan");
 		this.jugadoresNuevos.add("Thiago");
-
+		*/
 		//this.observadores = new ArrayList<Observador>();
 		//try{
 		//this.incializar();
@@ -119,14 +120,23 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		return this.jugadoresNuevos.contains(nombre);
 	}
 	public void agregarJugador(String nombre) throws RemoteException {
-		if (nombre == null || nombre.isBlank()) {
+				if (nombre == null || nombre.isBlank()) {
 			throw new IllegalArgumentException("El nombre no puede estar vacío");
 		}
 		if (jugadoresNuevos.contains(nombre)) {
 			throw new IllegalArgumentException("Ese nombre ya está en uso");
 		}
-		jugadoresNuevos.add(nombre);
-		System.out.println(nombre+ " se unio a la partida");
+		//Agregar un jugador nuevo, solo si ya no estaba presente 
+		boolean presente = false;
+		for (String j : jugadoresNuevos) {
+			if (j.equals(nombre) ) {
+				presente = true;
+			}
+		}
+		if(presente == false){
+			jugadoresNuevos.add(nombre);
+			System.out.println(nombre+ " se unio a la partida");
+		}
 	}
 
 	public void agregarJugadores(ArrayList<String> jugadoresNuevos
@@ -142,11 +152,26 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		mazo = new Mazo();
 	}
 	public EstadoSala marcarListo(String nombre) throws RemoteException {
-		jugadoresListos.add(nombre);
-		List<String> faltan = new ArrayList<>();
-		for (String j : jugadoresNuevos) {
-			if (!jugadoresListos.contains(j)) {
-				faltan.add(j);
+		// Agregar un jugadorListo solo si no esta
+		boolean presente = false;
+		for(String j : jugadoresListos){
+			if(j.equals(nombre)){
+				presente = true;
+			}
+		}
+		if(presente == false){
+			jugadoresListos.add(nombre);
+		}
+		//Manejar lista de los que faltan
+		//Tiene que retornar una lista vacia cuando esten todos listos
+		ArrayList<String> faltan = new ArrayList<>();
+		if(jugadoresNuevos.size() <=3){
+			faltan.add("Faltan jugadores, minimo 4");
+		}else{
+			for(String l : jugadoresListos){
+				if(jugadoresListos.contains(l) == false){
+					faltan.add(l);
+				}
 			}
 		}
 		return new EstadoSala(jugadoresNuevos.size(), jugadoresListos.size(), faltan);
@@ -235,7 +260,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		Collections.sort(this.jugadoresListos);
 		Collections.sort(this.jugadoresNuevos);
 		//tiene que haber 4 jugadores
-		if(this.jugadoresListos.get(3) != null){
+		if(this.jugadoresListos.size() > 3){
 		if (this.jugadoresListos.equals( this.jugadoresNuevos )) {
 			System.out.println("Ya estan todos listos");
 			this.iniciarJuego();
@@ -440,6 +465,8 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 					System.out.println("y no se pudo jugar la carta");
 				}
 			}
+		}else{
+			System.out.println(" ..pero tiene restricciones");
 		}
 		if(descarte){	
 			System.out.println("Se descarta y se da una carta nueva");
@@ -469,14 +496,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 			}
 		}
 		return seDerrumboElCamino;
-		/*
-		if(fallido){	
-			System.out.println("ingreso fallido");
-			borrarCartaYDarUnaNueva(carta, quien);
-			siguienteTurno();
-			notificarObservadores();
-		}
-		*/
+		
 	}
 	public void descartarCarta(int posCarta, String quien
 			) throws RemoteException {

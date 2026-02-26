@@ -1,10 +1,8 @@
 package saboteadores.modelo;
 
 import saboteadores.modelo.mazo.cartas.Carta;
-import saboteadores.modelo.mazo.cartas.CartaJugableEnTablero;
 import saboteadores.modelo.mazo.cartas.CartaSimple;
 import saboteadores.modelo.mazo.cartas.Carta_Camino;
-import saboteadores.modelo.mazo.cartas.Carta_Oro;
 import saboteadores.modelo.enums.CartaTipo;
 import saboteadores.modelo.enums.CartaOroTipo;
 
@@ -98,7 +96,7 @@ public class Slot implements Serializable {
 		}
 
 		if(cartaRecibida instanceof Carta_Camino){
-			System.out.println("es de instancia camino");
+			//System.out.println("es de instancia camino");
 		}else{
 			return false;
 		}
@@ -112,7 +110,9 @@ public class Slot implements Serializable {
 				this.arriba.getCartaAlojadaEnSlot().esUnCallejon() == false && 
 				this.arriba.getCartaAlojadaEnSlot().getAbajo()){
 			conexion = true;
+			if(carta.esUnCallejon() == false){
 			checkConexionMeta(this.arriba);
+			}
 		}
 		if(carta.getAbajo() && 
 				this.abajo != null && 
@@ -120,7 +120,9 @@ public class Slot implements Serializable {
 				this.abajo.getCartaAlojadaEnSlot().esUnCallejon() == false && 
 				this.abajo.getCartaAlojadaEnSlot().getArriba()){
 			conexion = true;
+			if(carta.esUnCallejon() == false){
 			checkConexionMeta(this.abajo);
+			}
 		}
 		if(carta.getIzquierda() && 
 				this.izquierda != null && 
@@ -128,7 +130,9 @@ public class Slot implements Serializable {
 				this.izquierda.getCartaAlojadaEnSlot().esUnCallejon() == false && 
 				this.izquierda.getCartaAlojadaEnSlot().getDerecha()){
 			conexion = true;
+			if(carta.esUnCallejon() == false){
 			checkConexionMeta(this.izquierda);
+			}
 		}
 		if(carta.getDerecha() && 
 				this.derecha != null && 
@@ -136,8 +140,13 @@ public class Slot implements Serializable {
 				this.derecha.getCartaAlojadaEnSlot().esUnCallejon() == false && 
 				this.derecha.getCartaAlojadaEnSlot().getIzquierda()){
 			conexion = true;
-			checkConexionMeta(this.derecha);
+			System.out.println("Slot test");
+			if(carta.esUnCallejon() == false){
+				System.out.println("Slot test2");
+				checkConexionMeta(this.derecha);
+			}
 		}
+		System.out.println("Slot test6");
 		//almacena la carta 
 		if(conexion){
 			this.carta_alojada = carta;
@@ -149,16 +158,20 @@ public class Slot implements Serializable {
 	private void checkConexionMeta(Slot slot){
 
 		if(slot.getCartaAlojadaEnSlot().esMeta() ){
+				System.out.println("Slot test3");
 			//Carta oro tiene 2 posibles resultados, ORO y CARBON 
 			if( slot.getCartaAlojadaEnSlot().getOro() ){
 				estoyConectadoConLaMeta = true;
 				//Cambio la forma del slot 
 				//(osea descubro la carta)
-				slot.SlotSetForma("O");
+				System.out.println("Slot test4");
+				slot.getCartaAlojadaEnSlot().setForma("O");
+				System.out.println("Slot test5");
 
 			}else{
 				//si es un carbon, se descubre 
-				slot.SlotSetForma("C");
+				slot.getCartaAlojadaEnSlot().setForma("C");
+				//slot.SlotSetForma("C");
 			}
 		}
 	}
