@@ -1,4 +1,4 @@
-package saboteadores.clienteConsola;
+package saboteadores.cliente.consola;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -7,14 +7,21 @@ import javax.swing.JOptionPane;
 import ar.edu.unlu.rmimvc.RMIMVCException;
 import ar.edu.unlu.rmimvc.Util;
 import ar.edu.unlu.rmimvc.cliente.Cliente;
+import javafx.application.Application;
 
-import saboteadores.clienteConsola.ControladorConsola;
-import saboteadores.clienteConsola.VistaConsola;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.application.Platform;
+
+
+import saboteadores.cliente.consola.ControladorGUIConsola;
+import saboteadores.cliente.consola.VistaGUIConsola;
 import saboteadores.modelo.ITablero;
 
-public class AppClienteConsola  {
-	private static VistaConsola vista;
-	private static ControladorConsola controlador;
+public class AppClienteConsola extends Application {
+	private static VistaGUIConsola vista;
+	private static ControladorGUIConsola controlador;
 
 	public static void main(String[] args) {
 		ArrayList<String> puertos = new ArrayList<String>();
@@ -57,15 +64,14 @@ public class AppClienteConsola  {
 		);
 		Cliente c = new Cliente(ip, Integer.parseInt(port), ipServidor, Integer.parseInt(portServidor));
 
-		vista = new VistaConsola();
-		controlador = new ControladorConsola(vista);
+		vista = new VistaGUIConsola();
+		controlador = new ControladorGUIConsola(vista);
 		// vista.iniciar(); seria bueno que aca inicie la ventana 
 		try {
 			c.iniciar(controlador); //se supone que con esto el modelo 
 									//y el controlador estan conectados
 			vista.setControlador(controlador);
-			controlador.iniciar();
-			vista.loop();
+			launch();
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -74,6 +80,23 @@ public class AppClienteConsola  {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}	
+	}
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		FXMLLoader fxmlloader = new FXMLLoader(AppClienteConsola.class.getResource("/sala_espera.fxml"));
+		fxmlloader.setController(vista);
+
+		Scene scene = new Scene(fxmlloader.load(), 640, 480);
+		stage.setTitle("Saboteadores");
+		stage.setScene(scene);
+		stage.show();
+		 // Iniciamos el proceso después de mostrar la ventana
+        Platform.runLater(() -> {
+            controlador.iniciar();
+        });
+
+
+	}
 
 }

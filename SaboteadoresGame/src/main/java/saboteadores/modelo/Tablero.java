@@ -5,15 +5,11 @@ import java.util.List;
 import java.util.Collections;
 
 import saboteadores.modelo.enums.Rol;
-import saboteadores.modelo.enums.CartaTipo;
 import saboteadores.modelo.mazo.cartas.Carta_Camino;
-import saboteadores.modelo.mazo.cartas.Carta_Oro;
 import saboteadores.modelo.mazo.Mazo;
 import saboteadores.modelo.mazo.MazoPepitas;
 import saboteadores.modelo.Slot;
 import saboteadores.modelo.Slots_tablero;
-import saboteadores.modelo.observer.Observable;
-import saboteadores.modelo.observer.Observador;
 import saboteadores.modelo.Jugador;
 
 
@@ -42,6 +38,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 	private String partidaGanada = "";
 	//Cartas de oros para los mineros 
 	private MazoPepitas mazoPepitasMineros;
+	private String estadoDelJuego;
 
 	private int largoTablero;
 
@@ -49,6 +46,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 
 	private void reiniciarElJuego(){
 		System.out.println("Se reinicio el juego.");
+		this.estadoDelJuego = "";
 		this.incializar();
 		this.jugadores.clear();
 		this.jugadoresListos.clear(); 
@@ -57,19 +55,20 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 
 	public Tablero(Top top ){
 		this.top = top;
+		this.estadoDelJuego = "";
 		jugadoresListos = new ArrayList<>();
 		jugadoresNuevos = new ArrayList<>();
 		//Configuracion de pruebas 
 		this.largoTablero = 7; //MAX 7 MIN 1 
 		//this.descartarMuchasCartas(45); //Descarta 45 cartas  MAX 45 MIN 1
-		/*
+		
 		this.jugadoresListos.add("Carlos");
 		this.jugadoresListos.add("Juan");
 		this.jugadoresListos.add("Thiago");
 		this.jugadoresNuevos.add("Carlos");
 		this.jugadoresNuevos.add("Juan");
 		this.jugadoresNuevos.add("Thiago");
-		*/
+		
 		//this.observadores = new ArrayList<Observador>();
 		//try{
 		//this.incializar();
@@ -136,6 +135,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		if(presente == false){
 			jugadoresNuevos.add(nombre);
 			System.out.println(nombre+ " se unio a la partida");
+			this.estadoDelJuego = this.estadoDelJuego + nombre+ " se unio a la partida\n";
 		}
 	}
 
@@ -262,12 +262,15 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		//tiene que haber 4 jugadores
 		if(this.jugadoresListos.size() > 3){
 		if (this.jugadoresListos.equals( this.jugadoresNuevos )) {
+			this.estadoDelJuego = this.estadoDelJuego +"Ya estan todos listos\n";
 			System.out.println("Ya estan todos listos");
 			this.iniciarJuego();
 		}
 		}
 	}
 	public void iniciarJuego() throws RemoteException {
+		
+		this.estadoDelJuego = this.estadoDelJuego +"Ya estan todos listos\n";
 		System.out.println("El Juego INICIO");
 		this.inicializarJugadores(jugadoresNuevos);
 		System.out.println("Se repartieron los roles");

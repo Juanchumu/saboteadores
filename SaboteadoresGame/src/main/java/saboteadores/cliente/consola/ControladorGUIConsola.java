@@ -1,8 +1,9 @@
-package saboteadores.clienteConsola;
+package saboteadores.cliente.consola;
 
-import saboteadores.clienteConsola.VistaConsola;
+import saboteadores.cliente.consola.VistaGUIConsola;
 
 import saboteadores.modelo.mazo.cartas.Carta;
+
 import java.rmi.RemoteException;
 
 import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
@@ -13,16 +14,15 @@ import saboteadores.modelo.EstadoSala;
 //import saboteadores.tablero.Observer;
 //
 
+import javafx.application.Platform;
 
-public class ControladorConsola implements IControladorRemoto {
+public class ControladorGUIConsola implements IControladorRemoto {
 	private ITablero modelo;
-	private VistaConsola vista;
+	private VistaGUIConsola vista;
 	private String nombreJugadorDeEsteControlador;
 	private boolean juegoEnMarcha; 
-	private boolean conectadoAlJuego; 
-	public ControladorConsola(VistaConsola vista)  {
+	public ControladorGUIConsola(VistaGUIConsola vista)  {
 		this.juegoEnMarcha = false;
-		this.conectadoAlJuego = false;
 		this.vista = vista;
 	}
 	public void iniciar(){
@@ -31,13 +31,13 @@ public class ControladorConsola implements IControladorRemoto {
 			this.vista.setLargo(this.modelo.getLargo());
 
 			//al inicio de cada partida solo se puede consultar el top
-			//en la consola se consulta;
 			this.vista.setTop(this.modelo.getTop());
 			// Pedir nombre
 			this.nombreJugadorDeEsteControlador = vista.getNombre();
 			if (this.nombreJugadorDeEsteControlador == null || 
 					this.nombreJugadorDeEsteControlador.trim().isEmpty()) {
 				vista.mostrarError("Debe ingresar un nombre válido");
+				Platform.exit();
 				return;
 					}
 			// Agregar jugador al modelo solo si no esta 
@@ -46,10 +46,6 @@ public class ControladorConsola implements IControladorRemoto {
 			}
 			// Actualizar la vista con el nombre del jugador
 			vista.setNombreJugador(this.nombreJugadorDeEsteControlador);
-
-			//se pregunta si esta listo
-				vista.confirmarListo(); 
-				jugadorListo();
 		} catch (Exception e) {
 			vista.mostrarError("Error al iniciar: " + e.getMessage());
 			e.printStackTrace();
@@ -79,19 +75,16 @@ public class ControladorConsola implements IControladorRemoto {
 				System.out.println("2.5");
 
 				this.juegoEnMarcha = true;
-				this.conectadoAlJuego = true;
-				vista.loop();
-				//vista.vistaPorDefecto();
+				vista.cambiarAEscenarioJuego();
 			}else{
 				try {
 					System.out.println("3");
 					EstadoSala estado = modelo.marcarListo(nombreJugadorDeEsteControlador);
 					// Actualizar vista con el estado actual
+					Platform.runLater(() -> {
 					vista.actualizarSala(estado.listos, estado.totalJugadores, estado.faltan);
-					System.out.println("4");
 					if (estado.faltan.isEmpty()) {
-						System.out.println("5");
-						vista.mostrarTodosListos();
+						//vista.mostrarTodosListos();
 						//vista.cambiarAEscenarioJuego();
 						// No se puede arrancar el juego desde aca, ya
 						// que todos tendrian que arrancarlo 
@@ -99,6 +92,7 @@ public class ControladorConsola implements IControladorRemoto {
 						try{this.modelo.intentarArrancarElJuego();
 						} catch (RemoteException e) { vista.mostrarError("Error al intentar arrancar el juego" + e.getMessage()); e.printStackTrace();}
 					}
+					});
 				}catch(RemoteException e) { vista.mostrarError("Error al actualizar sala: " + e.getMessage()); e.printStackTrace();}
 			}
 		}
@@ -139,6 +133,7 @@ public class ControladorConsola implements IControladorRemoto {
 	@Override
 	public void actualizar(IObservableRemoto instanciaDeModelo, Object cambio) throws RemoteException{
 		//System.out.println("a1");
+		Platform.runLater(() -> {
 		//System.out.println("a2");
 			try {
 				if (modelo != null && modelo.esJugable()) {
@@ -152,8 +147,6 @@ public class ControladorConsola implements IControladorRemoto {
 						//se setea una sola vez 
 						vista.setJugador(modelo.devolverJugador(this.nombreJugadorDeEsteControlador ));
 						vista.setAdversarios(modelo.getListaAdversarios(this.nombreJugadorDeEsteControlador));
-						this.conectadoAlJuego = true;
-						vista.loop();
 						vista.cambiarAEscenarioJuego();
 					}else{
 						//System.out.println("a6");
@@ -168,6 +161,7 @@ public class ControladorConsola implements IControladorRemoto {
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
+		});
 	}
 
 	@Override
