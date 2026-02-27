@@ -6,7 +6,6 @@ import java.util.List;
 import saboteadores.modelo.enums.Rol;
 import saboteadores.modelo.enums.CartaTipo;
 import saboteadores.modelo.mazo.cartas.Carta_Camino;
-import saboteadores.modelo.mazo.cartas.Carta_Oro;
 import saboteadores.modelo.mazo.Mazo;
 import saboteadores.modelo.mazo.MazoPepitas;
 import saboteadores.modelo.Slot;

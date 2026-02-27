@@ -2,7 +2,6 @@ package saboteadores.modelo;
 
 import saboteadores.modelo.enums.CartaTipo;
 import saboteadores.modelo.mazo.cartas.Carta_Camino;
-import saboteadores.modelo.mazo.cartas.Carta_Oro;
 import saboteadores.modelo.mazo.Mazo_oros;
 import saboteadores.modelo.Slot;
 

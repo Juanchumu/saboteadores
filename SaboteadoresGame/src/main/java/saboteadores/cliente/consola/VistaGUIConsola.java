@@ -257,7 +257,7 @@ public class VistaGUIConsola {
 							tableroJuego.getSlot(botonNro).getCartaAlojadaEnSlot().getForma()
 							);
 				}else{
-					consola.appendText("");
+					consola.appendText("[]");
 				}
 				botonNro++;
 			}
@@ -267,8 +267,8 @@ public class VistaGUIConsola {
 
 	/// por cada interaccion, se muestra denuevo la vista
 	public void vistaPorDefecto(){
-		this.verCartasJugador();
 		this.verJugadorActual();
+		this.verCartasJugador();
 		this.verOtrosJugadores(); //incompleto 
 		this.verOrosJugador();
 		this.verRestriccionesJugador();
@@ -300,7 +300,7 @@ public class VistaGUIConsola {
 		consola.appendText("Estas son tus cartas: \n");
 		int i = 0; //Identificador
 		for(Carta c : jugador.getManoJugador()){
-			consola.appendText("ID: "+i+" "+cartaAString(c) );
+			consola.appendText("ID: "+i+" "+cartaAString(c) + "\n" );
 			i++;
 		}
 	}
@@ -308,9 +308,10 @@ public class VistaGUIConsola {
 		consola.appendText("Estos son los jugadores: \n");
 		//Primera Opcion es el propio jugador 
 		int i = 0;
-		consola.appendText("ID: "+i+" "+jugador.getNombre()+ "\n" );
+		consola.appendText("ID: "+i+" "+jugador.getNombre()+ "-> vos mismo\n" );
+		i++;
 		for(Jugador j : this.adversarios){
-			consola.appendText("ID: "+i+" "+j.getNombre()+ "\n" );
+			consola.appendText("ID: "+i+" "+j.getNombre()+ " " );
 			if(j.tieneRestricciones() == false ){
 				consola.appendText("Tiene restricciones: ");
 				for(CartaSabotaje s: j.getRestriccionesJugador()){
@@ -325,11 +326,11 @@ public class VistaGUIConsola {
 		}
 	}
 	private void verOrosJugador(){
-		consola.appendText("Estos son los oros que viste:\n");
+		consola.appendText("Estos son las metas que viste: ");
 		int i = 1;
 		String aux = "";
 		if(jugador.getOrosJugador().isEmpty()){
-			consola.appendText("Todavia no hay oros vistos. \n");
+			consola.appendText("... Ninguna.\n");
 		}else{
 			for(Carta_Camino c : jugador.getOrosJugador()){
 				aux = i+ " "+ cartaAString(c) + c.getForma(); 
@@ -338,10 +339,11 @@ public class VistaGUIConsola {
 				}else{
 					aux = aux +" Carbon";
 				}
-				consola.appendText(aux + "\n");
+				consola.appendText(aux + " ");
 				i++;
 			}
 		}
+		consola.appendText("\n");
 	}
 	private void verRestriccionesJugador(){
 		consola.appendText("Restricciones que tenes: ");
@@ -372,7 +374,6 @@ public class VistaGUIConsola {
 	}
 
 	public void opciones(String[] partes){
-		int cartaElegida;
 		if(jugadorActual.equals(jugador.getNombre().toString())){
 			if(partes.length == 0){
 				consola.appendText("Por favor introduci algo \n");
@@ -387,6 +388,9 @@ public class VistaGUIConsola {
 						break;
 					case "descartar":
 						opcionDescartar(partes);
+						break;
+					case "ayuda":
+						opcionAyuda();
 						break;
 				}
 			}
@@ -453,6 +457,17 @@ public class VistaGUIConsola {
 		}catch(ArrayIndexOutOfBoundsException | NumberFormatException e){
 			consola.appendText("Comando erroneo. \n");
 		}
+	}
+	private void opcionAyuda(){
+			consola.appendText("Para Jugar una carta sobre un jugador: \n");
+			consola.appendText("jugador [Nombre] [NroCarta] \n");
+			consola.appendText("Para Jugar una carta en el tablero: \n");
+			consola.appendText("tablero [NroSlot] [NroCarta] \n");
+			consola.appendText("Para descartar una carta: \n");
+			consola.appendText("descartar [NroCarta]\n");
+			consola.appendText("\n");
+			consola.appendText("\n");
+			
 	}
 
 

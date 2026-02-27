@@ -4,7 +4,6 @@ import saboteadores.modelo.mazo.cartas.Carta;
 import saboteadores.modelo.mazo.cartas.CartaReparacion;
 import saboteadores.modelo.mazo.cartas.CartaSabotaje;
 import saboteadores.modelo.mazo.cartas.Carta_Camino;
-import saboteadores.modelo.mazo.cartas.Carta_Oro;
 import saboteadores.modelo.enums.CartaAccionTipo;
 import saboteadores.modelo.enums.CartaTipo;
 import saboteadores.modelo.enums.Rol;

@@ -8,10 +8,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 
 
-<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
-	<TextArea fx:id="consola" prefHeight="200.0" prefWidth="300.0"/>
-    <TextField fx:id="inputConsola" prefHeight="100" prefWidth="300"/>
-    <Button text="Enviar" onAction="#enviar"/>
+<VBox spacing="10" alignment="CENTER" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+	<TextArea fx:id="consola" editable="false" VBox.vgrow="ALWAYS" maxWidth="Infinity" />
+	<HBox spacing="10" alignment="CENTER" prefHeight="40">
+		<TextField fx:id="inputConsola" HBox.hgrow="ALWAYS" prefHeight="30" maxWidth="Infinity" />
+	<Button text="Enviar" onAction="#enviar"/>
+</HBox>
 </VBox>
