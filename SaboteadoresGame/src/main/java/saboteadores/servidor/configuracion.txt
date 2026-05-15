@@ -1,0 +1,7 @@
+aca tienen que estar configuraciones tipo 
+
+cantidad de cartas: 50
+
+minimo 4 maximo 50
+
+etc

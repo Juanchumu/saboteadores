@@ -16,7 +16,12 @@ import java.util.Collections;
 public class Mazo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Carta>  mazo;
-
+	/**
+	 * Crea un mazo y le añade las cartas de a tandas,
+	 * siendo primero las de callejones y caminos, 
+	 * despues las de acciones y por ultimo
+	 * las mezcla.
+	 */
 	public Mazo(){
 		//se crea el mazo
 		mazo = new ArrayList<Carta>();
@@ -113,10 +118,13 @@ public class Mazo implements Serializable {
 		}
 
 	}
-
+	/**
+	 * Devuelve el mazo generado.
+	 */
 	public ArrayList<Carta> getMazo(){
 		return this.mazo;
 	}
+
 	public boolean hayCartasEnElMazo(){
 		boolean estado = true;
 		if(this.mazo.size() == 0){
@@ -124,16 +132,26 @@ public class Mazo implements Serializable {
 		}
 		return estado;
 	}
+	/** Extrae una carta del mazo, pero la elimina del mismo. 
+	 */
 	public Carta getCarta(){
 		Carta devolver = this.mazo.get(this.mazo.size() -1 );
 		this.mazo.remove(this.mazo.size() - 1);  // elimina el último 
 		return devolver;
 	}
+	/** 
+	 * Es para saber cuantas cartas quedan en el mazo
+	 * Si se acaban las cartas, se acaba el juego.
+	 */
 	public int getCantidadRestanteMazo(){
 		return this.mazo.size();
 	}
-	// metodo unicamente con fines de pruebas
-	// es para poder probar que el juego se quede sin cartas
+	/**
+	 * Metodo unicamente con fines de pruebas
+	 * es para poder probar que el juego se quede sin cartas
+	 * Ej de uso: eliminar 40 cartas, para que el juego arranque
+	 * con pocas cartas.
+	 */
 	public void eliminarCarta(){
 		this.mazo.remove(this.mazo.size() - 1);  // elimina el último 
 	}
