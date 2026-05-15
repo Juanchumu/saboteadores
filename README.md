@@ -13,7 +13,7 @@ mvn exec:java -Dexec.mainClass=saboteadores.servidor.ServidorLocal
 mvn exec:java -Dexec.mainClass=saboteadores.cliente.AppCliente
 
 #### Levantar un cliente de vista grafica consola:
-mvn exec:java -Dexec.mainClass=saboteadores.cliente.consola.AppCliente
+mvn exec:java -Dexec.mainClass=saboteadores.cliente.consola.AppClienteConsola
 
 ### Notas: 
 
@@ -22,3 +22,7 @@ mvn exec:java -Dexec.mainClass=saboteadores.cliente.consola.AppCliente
 * Las incorporaciones en el juego unicamente tienen que ser al inicio de la partida, ya que es el unico momento en donde el modelo espera nuevos jugadores.
 
 * El top solo se puede desde el lobby de espera.
+
+* La serializacion se produce en 2 archivos: tablero.dat y top.dat, ambos pueden ser borrados sin problemas.
+
+* Al Ganar, se informa a todos los jugadores que el juego termino y quienes ganaron.

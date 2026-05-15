@@ -78,7 +78,10 @@ public class Slot implements Serializable {
 	}
 
 	//FuncionesSeters
-
+	/**
+	 * Multiples controles sobre la carta que se quiere alojar
+	 * y controles sobre los slots anexos.
+	 */
 	public boolean alojarCarta(Carta cartaRecibida){
 		//verificar si es una instancia de carta camino
 		//
@@ -146,7 +149,7 @@ public class Slot implements Serializable {
 				checkConexionMeta(this.derecha);
 			}
 		}
-		System.out.println("Slot test6");
+		//System.out.println("Slot test6");
 		//almacena la carta 
 		if(conexion){
 			this.carta_alojada = carta;
