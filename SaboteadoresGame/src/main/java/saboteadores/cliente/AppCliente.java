@@ -23,6 +23,11 @@ import saboteadores.cliente.ControladorGUI;
 import saboteadores.cliente.VistaGUI;
 import saboteadores.modelo.ITablero;
 
+/** Inicia el Cliente del juego de los saboteadores
+ * con una vista grafica que emplea javaFX.
+ * @author Juan Jara
+ */
+
 public class AppCliente extends Application {
 	private static VistaGUI vista;
 	private static ControladorGUI controlador;

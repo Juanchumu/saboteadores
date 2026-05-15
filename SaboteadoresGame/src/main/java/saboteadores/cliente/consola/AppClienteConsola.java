@@ -19,6 +19,11 @@ import saboteadores.cliente.consola.ControladorGUIConsola;
 import saboteadores.cliente.consola.VistaGUIConsola;
 import saboteadores.modelo.ITablero;
 
+/** Inicia el Cliente del juego de los saboteadores
+ * con una vista consola que emplea javaFX.
+ * @author Juan Jara
+ */
+
 public class AppClienteConsola extends Application {
 	private static VistaGUIConsola vista;
 	private static ControladorGUIConsola controlador;

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"saboteadores.cliente.consola"},{"l":"saboteadores.cliente.vista"},{"l":"saboteadores.modelo"},{"l":"saboteadores.modelo.enums"},{"l":"saboteadores.modelo.mazo"},{"l":"saboteadores.modelo.mazo.cartas"},{"l":"saboteadores.modelo.observer"},{"l":"saboteadores.servidor"}];updateSearchResults();

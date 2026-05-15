@@ -22,6 +22,13 @@ import saboteadores.modelo.mazo.cartas.CartaSimple;
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
 import java.io.*;
+
+/**
+ *El tablero, es el "modelo", orquesta todas las actividades del juego..
+ * Posee lineas comentadas, que son para pruebas especiales de funcionamiento.
+ * @author Juanchumu
+ */
+
 public class Tablero extends ObservableRemoto implements ITablero, Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -52,7 +59,9 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		this.jugadoresListos.clear(); 
 		this.jugadoresNuevos.clear();
 	}
-
+	/** Al crearse un tablero, el mismo inicializa el mismo y se pone a la espera 
+	 * de nuevos jugadores.
+	 */
 	public Tablero(Top top ){
 		this.top = top;
 		this.estadoDelJuego = "";
@@ -62,22 +71,24 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 		this.largoTablero = 7; //MAX 7 MIN 1 
 		//this.descartarMuchasCartas(45); //Descarta 45 cartas  MAX 45 MIN 1
 		
-		this.jugadoresListos.add("Carlos");
-		this.jugadoresListos.add("Juan");
-		this.jugadoresListos.add("Thiago");
-		this.jugadoresNuevos.add("Carlos");
-		this.jugadoresNuevos.add("Juan");
-		this.jugadoresNuevos.add("Thiago");
+		//this.jugadoresListos.add("Carlos");
+		//this.jugadoresListos.add("Juan");
+		//this.jugadoresListos.add("Thiago");
+		//this.jugadoresNuevos.add("Carlos");
+		//this.jugadoresNuevos.add("Juan");
+		//this.jugadoresNuevos.add("Thiago");
 		
 		//this.observadores = new ArrayList<Observador>();
 		//try{
 		//this.incializar();
 		//}catch (RemoteException e){e.printStackTrace();}
 	}
+	/** Devuelve el largo del tablero con el que se esta jugando.*/
 	public int getLargo(
 			) throws RemoteException {
 		return this.largoTablero;
 	}
+	/** Devuelve el estado del tablero con el que se esta jugando.*/
 	public boolean esJugable(
 			) throws RemoteException {
 		return this.jugable;
@@ -87,6 +98,7 @@ public class Tablero extends ObservableRemoto implements ITablero, Serializable 
 			this.mazo.eliminarCarta();
 		}
 	}
+	/** Devuelve el Top del historico de todos los juegos que se hicieron.*/
 	public Top getTop() throws RemoteException{
 		return this.top;
 	}
