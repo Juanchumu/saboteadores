@@ -4,20 +4,29 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import ar.edu.unlu.rmimvc.RMIMVCException;
-import ar.edu.unlu.rmimvc.Util;
-import ar.edu.unlu.rmimvc.cliente.Cliente;
-import javafx.application.Application;
 
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.application.Platform;
 
 
+
+
+
+
+import ar.edu.unlu.rmimvc.RMIMVCException;
+import ar.edu.unlu.rmimvc.Util;
+import ar.edu.unlu.rmimvc.cliente.Cliente;
 import saboteadores.cliente.ControladorGUI;
 import saboteadores.cliente.VistaGUI;
 import saboteadores.modelo.ITablero;
+
+/** Inicia el Cliente del juego de los saboteadores
+ * con una vista grafica que emplea javaFX.
+ * @author Juan Jara
+ */
 
 public class AppCliente extends Application {
 	private static VistaGUI vista;
@@ -81,7 +90,6 @@ public class AppCliente extends Application {
 			e.printStackTrace();
 		}
 	}
-
 	@Override
 	public void start(Stage stage) throws Exception {
 		FXMLLoader fxmlloader = new FXMLLoader(AppCliente.class.getResource("/sala_espera.fxml"));
@@ -98,5 +106,4 @@ public class AppCliente extends Application {
 
 
 	}
-
 }

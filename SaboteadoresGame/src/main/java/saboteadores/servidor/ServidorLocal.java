@@ -13,7 +13,9 @@ import ar.edu.unlu.rmimvc.Util;
 import ar.edu.unlu.rmimvc.servidor.Servidor;
 
 import java.io.*;
-
+/** Inicia el servidor local del juego.
+ * @author Juan Jara
+ */
 public class ServidorLocal {
 
 	public static void main(String[] args) {

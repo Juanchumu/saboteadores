@@ -1,0 +1,8 @@
+saboteadores.cliente.consola
+saboteadores.cliente.vista
+saboteadores.modelo
+saboteadores.modelo.enums
+saboteadores.modelo.mazo
+saboteadores.modelo.mazo.cartas
+saboteadores.modelo.observer
+saboteadores.servidor
